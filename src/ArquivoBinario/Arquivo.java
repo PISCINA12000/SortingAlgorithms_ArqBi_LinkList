@@ -426,7 +426,6 @@ public class Arquivo {
     } /*quick com pivo do professor*/
 
     public void countSort() throws IOException{
-        // NÃO TERMINADO AINDA!!!!!!!!!!!!
         int maior=Integer.MIN_VALUE, i;
         Arquivo arquivoCont = new Arquivo("Contador");
         Arquivo arquivoFinal = new Arquivo("Final");
@@ -504,7 +503,11 @@ public class Arquivo {
             regi.leDoArq(arquivoFinal.getArquivo());
             regi.gravaNoArq(this.arquivo);
         } // copiei os dados ordenados para o arquivo original
-    }
+    } /*count sort*/
+
+    public void radixSort(){
+
+    } /*radix sort*/
 
     private int gerarAleatorio(int n) {
         Random sorteador = new Random();

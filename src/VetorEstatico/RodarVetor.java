@@ -46,8 +46,8 @@ public class RodarVetor {
         System.out.println("8 - Heap Sort (feito)");
         System.out.println("9 - Quick Sort SEM pivo (feito)");
         System.out.println("10 - Quick Sort COM pivo (feito)");
-        System.out.println("11 - Count Sort (fazendo)");
-        System.out.println("12 - Quick com pivo (professor e meu)");
+        System.out.println("11 - Count Sort (feito)");
+        System.out.println("12 - Radix Sort (fazendo)");
         System.out.print("INPUT: ");
         opcInterno = input.nextInt();
         return opcInterno;
@@ -213,11 +213,11 @@ public class RodarVetor {
                             break;
                         } /*quick sort sem pivo*/
                         case 10:{
-                            vet.quickSortComPivo();
+                            vet.quickComPivoProfessor();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        } /*quick sort com pivo*/
+                        } /*quick sort com pivo professor*/
                         case 11:{
                             vet.countSort();
                             System.out.println("Vetor ordenado com sucesso!");
@@ -225,11 +225,11 @@ public class RodarVetor {
                             break;
                         } /*count sort*/
                         case 12:{
-                            vet.quickComPivoProfessor();
+                            vet.radixSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        } /*quick do professor com pivo*/
+                        } /*radix sort*/
                         default:
                             System.out.println("Nenhuma opcao valida selecionada!");
                     }

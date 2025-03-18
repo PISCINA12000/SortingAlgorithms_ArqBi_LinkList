@@ -230,7 +230,7 @@ public class Vetor {
                 inicio++;
             }
         }
-    } /*shakesort*/
+    } /*shake sort*/
 
     public void selecaoDireta() {
         int posMenor, aux;
@@ -262,7 +262,7 @@ public class Vetor {
             gap = (int) (ant / 1.3);
             ant = gap;
         }
-    } /*combSort*/
+    } /*comb sort*/
 
     public void shellSort() {
         int dist = 1, aux, pos;
@@ -282,7 +282,7 @@ public class Vetor {
             }
             dist /= 2;
         }
-    } /*shellSort*/
+    } /*shell sort*/
 
     public void insercaoBinaria() {
         int pos, aux;
@@ -293,7 +293,7 @@ public class Vetor {
                 this.vetor[j] = vetor[j - 1];
             this.vetor[pos] = aux;
         }
-    } /*insercaoBinaria*/
+    } /*insercao binaria*/
 
     public void heapSort() {
         int TL2=this.TL, FE, FD, maiorF, aux;
@@ -316,7 +316,7 @@ public class Vetor {
             this.vetor[TL2-1] = aux;
             TL2--;
         }
-    } /*heapSort*/
+    } /*heap sort*/
 
     public void quickSortSemPivo(){
         quickSORTSemPivo(0, this.TL - 1);
@@ -368,7 +368,7 @@ public class Vetor {
 
     public void quickComPivoProfessor(){
         quickCPIVO(0,this.TL-1);
-    }
+    } /*quick com pivo do professor*/
     private void quickCPIVO(int ini, int fim) {
         int aux, pivo = this.vetor[(ini+fim)/2], i=ini, j=fim;
 
@@ -419,7 +419,60 @@ public class Vetor {
         //copiei para o vetor original
     } /*count sort*/
 
-    public void radixSort(){
-        
+    public void countSort(int d){
+        int maior=0;
+        for(int i=0; i<this.TL; i++){
+            if(this.vetor[i]>maior)
+                maior = this.vetor[i];
+        }
+        //achei o maior numero do meu vetor
+        Vetor countVet = new Vetor(maior+1);
+        countVet.setTL(maior+1); //deixa todas as posicoes com zeros
+        for(int i=0; i<this.TL; i++){
+            countVet.vetor[this.vetor[i]]++;
+        }
+        //contei as ocorrencias dos numeros de vetor em countVet
+        for(int i=1; i<countVet.getTL(); i++)
+            countVet.vetor[i] = countVet.vetor[i] + countVet.vetor[i-1];
+        //realizei a soma cumulativa
+        Vetor finalVet = new Vetor(this.TL);
+        finalVet.setTL(this.TL);
+        for(int i=this.TL-1; i>=0; i--){
+            finalVet.vetor[countVet.vetor[vetor[i]] - 1] = vetor[i]; // Ajuste do índice
+            countVet.vetor[vetor[i]]--;
+        }
+        //coloco os elementos ordenados no vetor original
+        for(int i=0; i<this.TL; i++)
+            vetor[i] = finalVet.vetor[i];
+        //copiei para o vetor original
+    } /*count sort para auxiliar o radix sort*/
+    private int contaDigitos(int numero){
+        int contador = 0;
+        if(numero!=0){
+            while(numero!=0){
+                numero = numero/10;
+                contador++;
+            }
+            return contador;
+        }
+        //se o numero recebido for 0, ele retorna que possui apenas 1 digito
+        return 1;
+    } /*metodo para auxiliar o radix sort*/
+    public void radixSort() {
+        int d=0;
+        for(int i=0; i<this.TL; i++){
+            //System.out.println("Qtde de Digitos do numero "+vetor[i]+": "+contaDigitos(vetor[i]));
+            if(contaDigitos(this.vetor[i]) > d)
+                d = contaDigitos(this.vetor[i]);
+        }
+        System.out.println(d);
+        //agora tenho a quantidade maxima de digitos dos elementos do vetor
+
+        radixSORT(d);
+        //nesse caso passo como parametro para o metodo radix o numero total de digitos que pode ter em cada numero do vetor, eh impossivel existir algum numero com mais digitos do que o passado por parametro
+    } /*radix sort*/
+    public void radixSORT(int d){
+        for(int i=1; i<=d; i++)
+            countSort(i); //chamar algum metodo que ira ordenar pelo digito
     } /*radix sort*/
 }
