@@ -361,7 +361,9 @@ public class Arquivo {
     } /*quick sort de verdade sem pivo*/
 
     public void quickSortComPivo() throws IOException{
-        quickSORTComPivo(0, (int)filesize()-1);
+        // um ou outro
+        //quickSORTComPivo(0, (int)filesize()-1);
+        quickSORTComPivoProfessor(0, (int)filesize()-1);
     } /*quick sort com pivo*/
     private void quickSORTComPivo(int ini, int fim) throws IOException{
         if(ini<fim){
@@ -392,6 +394,96 @@ public class Arquivo {
         }
         return ini;
     } /*metodo para auxiliar o quick com pivo*/
+    public void quickSORTComPivoProfessor(int ini, int fim) throws IOException{
+        int pivo, i=ini, j=fim;
+        Registro regi = new Registro(), regj = new Registro();
+        this.seekArq((ini+fim)/2); regi.leDoArq(this.arquivo);
+
+        pivo = regi.getNumero();
+
+        while(i<j){
+            this.seekArq(i); regi.leDoArq(this.arquivo);
+            while(regi.getNumero()<pivo){
+                i++;
+                this.seekArq(i); regi.leDoArq(this.arquivo);
+            }
+            this.seekArq(j); regj.leDoArq(this.arquivo);
+            while(regj.getNumero()>pivo){
+                j--;
+                this.seekArq(j); regj.leDoArq(this.arquivo);
+            }
+            if(i<=j){
+                this.seekArq(j); regi.gravaNoArq(this.arquivo);
+                this.seekArq(i); regj.gravaNoArq(this.arquivo);
+                i++;
+                j--;
+            }
+        }
+        if(ini<j)
+            quickSORTComPivoProfessor(ini, j);
+        if(i<fim)
+            quickSORTComPivoProfessor(i, fim);
+    } /*quick com pivo do professor*/
+
+    public void countSort() throws IOException{
+        // NÃO TERMINADO AINDA!!!!!!!!!!!!
+        int maior=Integer.MIN_VALUE, i;
+        Arquivo arquivoCont = new Arquivo("Contador");
+        Arquivo arquivoFinal = new Arquivo("Final");
+        Registro regi = new Registro(), regj = new Registro();
+
+        seekArq(0); regi.leDoArq(this.arquivo);
+        while(!eof()){
+            if(regi.getNumero()>maior){
+                maior = regi.getNumero();
+            }
+            regi.leDoArq(this.arquivo);
+        } // depois daqui tenho o maior numero do meu arquivo
+        arquivoCont.geraArquivoZerado(maior+1);
+        this.seekArq(0); regi.leDoArq(this.arquivo);
+        while(!eof()){
+            arquivoCont.seekArq(regi.getNumero()); regj.leDoArq(arquivoCont.getArquivo());
+            regj.setNumero(regj.getNumero()+1); // incremento
+            arquivoCont.seekArq(regi.getNumero()); regj.gravaNoArq(arquivoCont.getArquivo());
+            regi.leDoArq(this.arquivo);
+        } // ocorrencias contadas nas respectivas posicoes
+        i=0;
+        arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+        while(!arquivoCont.eof()){
+            arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+            arquivoCont.seekArq(i-1); regj.leDoArq(arquivoCont.getArquivo());
+            regi.setNumero(regi.getNumero()+regj.getNumero());
+            arquivoCont.seekArq(i); regi.gravaNoArq(arquivoCont.getArquivo());
+            i++;
+            arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+        } // realizei a soma cumulativa
+        arquivoFinal.geraArquivoZerado((int)filesize());
+        for(i=(int)filesize()-1; i>=0; i--){
+            int pos;
+            // vetor[i]
+            seekArq(i); regi.leDoArq(this.arquivo);
+            pos = regi.getNumero();
+            // countVet.vetor[pos] - 1
+            arquivoCont.seekArq(pos); regi.leDoArq(arquivoCont.getArquivo());
+            pos = regi.getNumero()-1;
+            // finalVet[pos] = vetor[i]
+            seekArq(i); regj.leDoArq(this.arquivo);
+            arquivoFinal.seekArq(pos); regj.gravaNoArq(arquivoFinal.getArquivo());
+            // countVet.vetor[vetor[i]]--
+            seekArq(i); regi.leDoArq(this.arquivo);
+            pos = regi.getNumero();
+            arquivoCont.seekArq(pos); regi.leDoArq(arquivoCont.getArquivo());
+            regi.setNumero(regi.getNumero()-1);
+            arquivoCont.seekArq(pos); regi.gravaNoArq(arquivoCont.getArquivo());
+        } // coloquei os elementos ordenados no arquivo final
+
+        arquivoFinal.seekArq(0); regi.leDoArq(arquivoFinal.getArquivo());
+        this.seekArq(0); regi.gravaNoArq(this.arquivo);
+        while(!arquivoFinal.eof()){
+            regi.leDoArq(arquivoFinal.getArquivo());
+            regi.gravaNoArq(this.arquivo);
+        } // copiei os dados ordenados para o arquivo original
+    }
 
     private int gerarAleatorio(int n) {
         Random sorteador = new Random();
@@ -418,6 +510,14 @@ public class Arquivo {
         Registro registro = new Registro();
         for (int i = n; i > 0; i--) {
             registro.setNumero(gerarAleatorio(n));
+            registro.gravaNoArq(this.arquivo);
+        }
+    }
+
+    public void geraArquivoZerado(int n){
+        Registro registro = new Registro();
+        for (int i = n; i > 0; i--) {
+            registro.setNumero(0);
             registro.gravaNoArq(this.arquivo);
         }
     }

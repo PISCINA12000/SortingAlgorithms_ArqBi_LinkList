@@ -287,6 +287,29 @@ public class RodarBinario {
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*quick sort com pivo*/
+                case 11:{
+                    //count sort
+
+                    System.out.println("Count Sort");
+                    this.geraArquivos();
+
+                    this.comecar(arqOrd);
+                    arqOrd.countSort();
+                    this.finaliza(arqOrd);
+                    System.out.println("Arquivo Ordenado: ");
+                    this.exibirInfo(arqOrd);//fim
+                    this.comecar(arqRev);
+                    arqRev.countSort();
+                    this.finaliza(arqRev);
+                    System.out.println("Arquivo Reverso: ");
+                    this.exibirInfo(arqRev);//fim
+                    this.comecar(arqCopRand);
+                    arqCopRand.countSort();
+                    this.finaliza(arqCopRand);
+                    System.out.println("Arquivo Aleatorio: ");
+                    this.exibirInfo(arqCopRand);//fim
+                    break;
+                } /*count sort*/
             }
         }
 

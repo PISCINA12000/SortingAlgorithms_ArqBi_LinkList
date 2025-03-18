@@ -389,7 +389,7 @@ public class Vetor {
             quickCPIVO(ini, j);
         if(i<fim)
             quickCPIVO(i, fim);
-    }
+    } /*quick sort com pivo feito pelo professor*/
 
     public void countSort(){
         int maior=0;
@@ -413,7 +413,7 @@ public class Vetor {
             finalVet.vetor[countVet.vetor[vetor[i]] - 1] = vetor[i]; // Ajuste do índice
             countVet.vetor[vetor[i]]--;
         }
-        //coloco os elementos ordenados em finalVet
+        //coloco os elementos ordenados no vetor original
         for(int i=0; i<this.TL; i++)
             vetor[i] = finalVet.vetor[i];
         //copiei para o vetor original
