@@ -439,6 +439,12 @@ public class Arquivo {
             }
             regi.leDoArq(this.arquivo);
         } // depois daqui tenho o maior numero do meu arquivo
+        if(regi.getNumero()>maior){
+            maior = regi.getNumero();
+        }
+//        System.out.println("Maior elemento: " + maior);
+
+        arquivoCont.truncate(0);
         arquivoCont.geraArquivoZerado(maior+1);
         this.seekArq(0); regi.leDoArq(this.arquivo);
         while(!eof()){
@@ -446,8 +452,15 @@ public class Arquivo {
             regj.setNumero(regj.getNumero()+1); // incremento
             arquivoCont.seekArq(regi.getNumero()); regj.gravaNoArq(arquivoCont.getArquivo());
             regi.leDoArq(this.arquivo);
-        } // ocorrencias contadas nas respectivas posicoes
-        i=0;
+        }
+        arquivoCont.seekArq(regi.getNumero()); regj.leDoArq(arquivoCont.getArquivo());
+        regj.setNumero(regj.getNumero()+1); // incremento
+        arquivoCont.seekArq(regi.getNumero()); regj.gravaNoArq(arquivoCont.getArquivo());
+        // ocorrencias contadas nas respectivas posicoes
+//        System.out.println("Exibição das ocorrencias por posições:");
+//        arquivoCont.exibirArquivo();
+
+        i=1;
         arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
         while(!arquivoCont.eof()){
             arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
@@ -456,7 +469,15 @@ public class Arquivo {
             arquivoCont.seekArq(i); regi.gravaNoArq(arquivoCont.getArquivo());
             i++;
             arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
-        } // realizei a soma cumulativa
+        }
+        arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+        arquivoCont.seekArq(i-1); regj.leDoArq(arquivoCont.getArquivo());
+        regi.setNumero(regi.getNumero()+regj.getNumero());
+        arquivoCont.seekArq(i); regi.gravaNoArq(arquivoCont.getArquivo());
+        // realizei a soma cumulativa
+//        System.out.println("Exibição da soma cumulativa:");
+//        arquivoCont.exibirArquivo();
+
         arquivoFinal.geraArquivoZerado((int)filesize());
         for(i=(int)filesize()-1; i>=0; i--){
             int pos;
@@ -514,7 +535,7 @@ public class Arquivo {
         }
     }
 
-    public void geraArquivoZerado(int n){
+    public void geraArquivoZerado(int n) {
         Registro registro = new Registro();
         for (int i = n; i > 0; i--) {
             registro.setNumero(0);
