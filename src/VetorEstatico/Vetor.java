@@ -481,6 +481,19 @@ public class Vetor {
     }
 
     public void bucketSort(){
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE, range, baldes=5;
+        Vetor[] buckets = new Vetor[]{new Vetor()};
 
+        for (int i = 0; i < this.TL; i++) {
+            if(this.vetor[i]>max)
+                max = this.vetor[i];
+            if(this.vetor[i]<min)
+                min = this.vetor[i];
+        } //aqui tenho achado o maior e o menor valor do meu Array
+
+        range = (max-min)/5;
+        for (int i = 0; i < baldes; i++) {
+
+        }
     } /*bucket sort*/
 }

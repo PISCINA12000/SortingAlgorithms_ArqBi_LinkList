@@ -47,7 +47,8 @@ public class RodarVetor {
         System.out.println("9 - Quick Sort SEM pivo (feito)");
         System.out.println("10 - Quick Sort COM pivo (feito)");
         System.out.println("11 - Count Sort (feito)");
-        System.out.println("12 - Radix Sort (fazendo)");
+        System.out.println("12 - Radix Sort (feito)");
+        System.out.println("13 - Bucket Sort (fazendo)");
         System.out.print("INPUT: ");
         opcInterno = input.nextInt();
         return opcInterno;
@@ -164,84 +165,91 @@ public class RodarVetor {
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*insercao direta*/
                         case 2: {
                             /*bubble sort*/
                             vet.bubbleSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*bubble sort*/
                         case 3: {
                             /*shake sort*/
                             vet.shakesort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*shake sort*/
                         case 4: {
                             /*selecao direta*/
                             vet.selecaoDireta();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*selecao direta*/
                         case 5: {
                             /*comb sort*/
                             vet.combSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*comb sort*/
                         case 6: {
                             /*shell sort*/
                             vet.shellSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*shell sort*/
                         case 7: {
                             /*insercao binaria*/
                             vet.insercaoBinaria();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*insercao binaria*/
                         case 8: {
                             /*heap sort*/
                             vet.heapSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*heap sort*/
                         case 9: {
                             /*quick sort sem pivo*/
                             vet.quickSortSemPivo();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*quick sort sem pivo*/
                         case 10: {
                             /*quick sort com pivo professor*/
                             vet.quickComPivoProfessor();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*quick sort com pivo professor*/
                         case 11: {
                             /*count sort*/
                             vet.countSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*count sort*/
                         case 12: {
                             /*radix sort*/
                             vet.radixSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        }
+                        } /*radix sort*/
+                        case 13:{
+                            /*bucket sort*/
+                            vet.bucketSort();
+                            System.out.println("Vetor ordenado com sucesso!");
+                            continuar();
+                            break;
+                        } /*bucket sort*/
                         default:
                             System.out.println("Nenhuma opcao valida selecionada!");
                     }
