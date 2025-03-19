@@ -320,7 +320,7 @@ public class Vetor {
 
     public void quickSortSemPivo(){
         quickSORTSemPivo(0, this.TL - 1);
-    } /*quickSort sem pivo*/
+    } /*quick sort sem pivo*/
     private void quickSORTSemPivo(int ini, int fim) {
         int i = ini, j = fim, aux;
         boolean flag = true;
@@ -422,14 +422,14 @@ public class Vetor {
     public void countSort(int d){
         int maior=0;
         for(int i=0; i<this.TL; i++){
-            if(this.vetor[i]>maior)
+            if(obterDigito(this.vetor[i], d) > maior)
                 maior = this.vetor[i];
         }
         //achei o maior numero do meu vetor
         Vetor countVet = new Vetor(maior+1);
         countVet.setTL(maior+1); //deixa todas as posicoes com zeros
         for(int i=0; i<this.TL; i++){
-            countVet.vetor[this.vetor[i]]++;
+            countVet.vetor[obterDigito(this.vetor[i], d)]++;
         }
         //contei as ocorrencias dos numeros de vetor em countVet
         for(int i=1; i<countVet.getTL(); i++)
@@ -438,14 +438,24 @@ public class Vetor {
         Vetor finalVet = new Vetor(this.TL);
         finalVet.setTL(this.TL);
         for(int i=this.TL-1; i>=0; i--){
-            finalVet.vetor[countVet.vetor[vetor[i]] - 1] = vetor[i]; // Ajuste do índice
-            countVet.vetor[vetor[i]]--;
+            finalVet.vetor[countVet.vetor[obterDigito(vetor[i],d)] - 1] = vetor[i]; // Ajuste do índice
+            countVet.vetor[obterDigito(vetor[i], d)]--;
         }
         //coloco os elementos ordenados no vetor original
         for(int i=0; i<this.TL; i++)
             vetor[i] = finalVet.vetor[i];
         //copiei para o vetor original
     } /*count sort para auxiliar o radix sort*/
+    private int obterDigito(int numero, int d) {
+        int divisor = 1;
+
+        // Calcula o divisor para alcançar a posição desejada
+        for (int i = 1; i < d; i++) {
+            divisor *= 10;
+        }
+
+        return (numero / divisor) % 10;
+    }
     private int contaDigitos(int numero){
         int contador = 0;
         if(numero!=0){

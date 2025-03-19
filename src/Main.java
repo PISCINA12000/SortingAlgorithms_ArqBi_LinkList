@@ -17,9 +17,9 @@ public class Main {
         System.out.println("$$ | \\_/ $$ |\\$$$$$$$\\ $$ |  $$ |\\$$$$$$  |");
         System.out.println("\\__|     \\__| \\_______|\\__|  \\__| \\______/ ");
         System.out.println("\n1 - LISTA ENCADEADA");
-        System.out.println("2 - ARQUIVO BINARIO");
+        System.out.println("2 - ARQUIVO BINÁRIO");
         System.out.println("3 - VETORES");
-        System.out.println("\nEscolha a opcao: ");
+        System.out.println("\nEscolha a opção: ");
 
         return leitor.nextInt();
     }
@@ -50,12 +50,12 @@ public class Main {
                     break;
                 }
                 default: {
-                    System.out.println("OPCAO INVALIDA!!");
+                    System.out.println("OPÇÃO INVÁLIDA!!");
                 }
             }
             System.out.println("Quer continuar? [0]NAO [1]SIM");
             opcao = leitor.nextInt();
         } while (opcao==1); //continuar a execucao do programa
-        System.out.println("Ateh mais!");
+        System.out.println("Até mais!");
     }
 }
