@@ -524,4 +524,18 @@ public class Vetor {
             }
         }
     } /*bucket sort*/
+
+    public void gnomeSort(){
+        int pos=1, aux;
+        while(pos<this.TL){
+            if(pos==0 || this.vetor[pos]>=this.vetor[pos-1])
+                pos++;
+            else{
+                aux = this.vetor[pos];
+                this.vetor[pos] = this.vetor[pos-1];
+                this.vetor[pos-1] = aux;
+                pos--;
+            }
+        }
+    } /*gnome sort*/
 }

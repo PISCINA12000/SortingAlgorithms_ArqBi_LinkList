@@ -49,6 +49,7 @@ public class RodarVetor {
         System.out.println("11 - Count Sort (feito)");
         System.out.println("12 - Radix Sort (feito)");
         System.out.println("13 - Bucket Sort (feito)");
+        System.out.println("14 - Gnome Sort (fazendo)");
         System.out.print("INPUT: ");
         opcInterno = input.nextInt();
         return opcInterno;
@@ -250,6 +251,13 @@ public class RodarVetor {
                             continuar();
                             break;
                         } /*bucket sort*/
+                        case 14:{
+                            /*gnome sort*/
+                            vet.gnomeSort();
+                            System.out.println("Vetor ordenado com sucesso!");
+                            continuar();
+                            break;
+                        } /*gnome sort*/
                         default:
                             System.out.println("Nenhuma opcao valida selecionada!");
                     }
