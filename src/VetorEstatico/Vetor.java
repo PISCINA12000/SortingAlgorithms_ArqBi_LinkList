@@ -419,6 +419,17 @@ public class Vetor {
         //copiei para o vetor original
     } /*count sort*/
 
+    public void radixSort() {
+        int d=0;
+        for(int i=0; i<this.TL; i++){
+            //System.out.println("Qtde de Digitos do numero "+vetor[i]+": "+contaDigitos(vetor[i]));
+            if(contaDigitos(this.vetor[i]) > d)
+                d = contaDigitos(this.vetor[i]);
+        } // tenho a quantidade maxima de digitos possiveis nos elementos do meu vetor
+
+        for(int i=1; i<=d; i++)
+            countSort(i); //chamar algum metodo que ira ordenar pelo digito
+    } /*radix sort*/
     public void countSort(int d){
         int maior=0;
         for(int i=0; i<this.TL; i++){
@@ -467,22 +478,9 @@ public class Vetor {
         }
         //se o numero recebido for 0, ele retorna que possui apenas 1 digito
         return 1;
-    } /*metodo para auxiliar o radix sort*/
-    public void radixSort() {
-        int d=0;
-        for(int i=0; i<this.TL; i++){
-            //System.out.println("Qtde de Digitos do numero "+vetor[i]+": "+contaDigitos(vetor[i]));
-            if(contaDigitos(this.vetor[i]) > d)
-                d = contaDigitos(this.vetor[i]);
-        }
-        System.out.println(d);
-        //agora tenho a quantidade maxima de digitos dos elementos do vetor
+    }
 
-        radixSORT(d);
-        //nesse caso passo como parametro para o metodo radix o numero total de digitos que pode ter em cada numero do vetor, eh impossivel existir algum numero com mais digitos do que o passado por parametro
-    } /*radix sort*/
-    public void radixSORT(int d){
-        for(int i=1; i<=d; i++)
-            countSort(i); //chamar algum metodo que ira ordenar pelo digito
-    } /*radix sort*/
+    public void bucketSort(){
+
+    } /*bucket sort*/
 }
