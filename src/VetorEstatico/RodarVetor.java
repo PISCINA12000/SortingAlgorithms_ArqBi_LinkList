@@ -49,7 +49,8 @@ public class RodarVetor {
         System.out.println("11 - Count Sort (feito)");
         System.out.println("12 - Radix Sort (feito)");
         System.out.println("13 - Bucket Sort (feito)");
-        System.out.println("14 - Gnome Sort (fazendo)");
+        System.out.println("14 - Gnome Sort (feito)");
+        System.out.println("15 - Merge Sort (fazendo)");
         System.out.print("INPUT: ");
         opcInterno = input.nextInt();
         return opcInterno;
@@ -258,6 +259,13 @@ public class RodarVetor {
                             continuar();
                             break;
                         } /*gnome sort*/
+                        case 15:{
+                            /*merge sort*/
+                            vet.mergeSort();
+                            System.out.println("Vetor ordenado com sucesso!");
+                            continuar();
+                            break;
+                        } /*merge sort*/
                         default:
                             System.out.println("Nenhuma opcao valida selecionada!");
                     }

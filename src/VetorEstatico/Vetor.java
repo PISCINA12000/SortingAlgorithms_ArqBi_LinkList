@@ -538,4 +538,63 @@ public class Vetor {
             }
         }
     } /*gnome sort*/
+
+    public void mergeSort(){
+        Vetor vet1 = new Vetor((this.TL+1)/2);
+        Vetor vet2 = new Vetor(this.TL/2);
+        int seq = 1;
+
+        while(seq<this.TL){
+            vet1.setTL(0);
+            vet2.setTL(0);
+            particao(vet1, vet2);
+
+            fusao(vet1, vet2, seq);
+            seq *= 2;
+        }
+    } /*merge sort*/
+    private void particao(Vetor vet1, Vetor vet2){
+        for (int i = 0; i < (this.TL+1)/2; i++) {
+            vet1.pushVetor(this.vetor[i]);
+        }
+        for (int i = (this.TL+1)/2; i < this.TL; i++) {
+            vet2.pushVetor(this.vetor[i]);
+        }
+    }
+
+    private void fusao(Vetor vet1, Vetor vet2, int seq) {
+        int k, i, j, cont1, cont2;
+
+        k = i = j = 0;
+        while (i < vet1.getTL() && j < vet2.getTL()) {
+            // andar pelos vetores que precisam realizar a fusao
+            cont1 = cont2 = 0;
+            while (cont1 < seq && cont2 < seq && i < vet1.getTL() && j < vet2.getTL()) {
+                if (vet1.getVetor()[i] < vet2.getVetor()[j]) {
+                    this.vetor[k++] = vet1.getVetor()[i++];
+                    cont1++;
+                    //inseri no vetor original o menor elemento comparado
+                } else {
+                    this.vetor[k++] = vet2.getVetor()[j++];
+                    cont2++;
+                    //inseri no vetor original o menor elemento comparado
+                }
+            }
+            while (cont1 < seq && i < vet1.getTL()) {
+                this.vetor[k++] = vet1.getVetor()[i++];
+                cont1++;
+            }
+
+            while (cont2 < seq && j < vet2.getTL()) {
+                this.vetor[k++] = vet2.getVetor()[j++];
+                cont2++;
+            }
+        }
+        while (i < vet1.getTL()) {
+            this.vetor[k++] = vet1.getVetor()[i++];
+        }
+        while (j < vet2.getTL()) {
+            this.vetor[k++] = vet2.getVetor()[j++];
+        }
+    }
 }
