@@ -481,8 +481,9 @@ public class Vetor {
     }
 
     public void bucketSort(){
-        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE, range, baldes=5;
-        Vetor[] buckets = new Vetor[]{new Vetor()};
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE, range, baldes=5, pos, k;
+        Vetor[] buckets = new Vetor[baldes];
+        //System.out.println(buckets.length); // verificar o tamanho do vetor de vetores
 
         for (int i = 0; i < this.TL; i++) {
             if(this.vetor[i]>max)
@@ -491,9 +492,36 @@ public class Vetor {
                 min = this.vetor[i];
         } //aqui tenho achado o maior e o menor valor do meu Array
 
-        range = (max-min)/5;
-        for (int i = 0; i < baldes; i++) {
+        range = (max-min+1)/5;
 
+        for (int i = 0; i < baldes; i++) {
+            buckets[i] = new Vetor();
+        } // criei os vetores e/ou buckets
+
+        for (int i = 0; i < this.TL; i++) {
+            if(range==0){
+                buckets[0].pushVetor(this.vetor[i]);
+            }
+            else{
+                pos = (this.vetor[i]-min)/range;
+                if(pos==baldes)
+                    pos--;
+                buckets[pos].pushVetor(this.vetor[i]);
+            }
+        } // elementos do vetor original colocados nos respectivos baldes
+
+        for (int i = 0; i < buckets.length; i++) {
+            if(buckets[i].getTL()!=0){
+                buckets[i].insercaoDireta();
+            }
+        } // baldes ordenados
+
+        // aqui preciso colocar os elementos ordenados dos baldes de volta no vetor
+        k = 0;
+        for (int i = 0; i < baldes; i++) {
+            for (int j = 0; j < buckets[i].getTL(); j++) {
+                this.vetor[k++] = buckets[i].getVetor()[j];
+            }
         }
     } /*bucket sort*/
 }

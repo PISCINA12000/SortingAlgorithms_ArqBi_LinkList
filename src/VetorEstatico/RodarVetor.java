@@ -48,7 +48,7 @@ public class RodarVetor {
         System.out.println("10 - Quick Sort COM pivo (feito)");
         System.out.println("11 - Count Sort (feito)");
         System.out.println("12 - Radix Sort (feito)");
-        System.out.println("13 - Bucket Sort (fazendo)");
+        System.out.println("13 - Bucket Sort (feito)");
         System.out.print("INPUT: ");
         opcInterno = input.nextInt();
         return opcInterno;
