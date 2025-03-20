@@ -561,7 +561,6 @@ public class Vetor {
             vet2.pushVetor(this.vetor[i]);
         }
     }
-
     private void fusao(Vetor vet1, Vetor vet2, int seq) {
         int k, i, j, cont1, cont2;
 
