@@ -3,7 +3,7 @@ package ArquivoBinario;
 import java.io.IOException;
 
 public class RodarBinario {
-    public final int N = 10;
+    public final int N = 16;
     long tini, tfim, ttotalO;
     int compO, movO;
     double tseg;
@@ -356,6 +356,75 @@ public class RodarBinario {
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*bucket sort*/
+                case 14:{
+                    //gnome sort
+
+                    System.out.println("Gnome Sort");
+                    this.geraArquivos();
+
+                    this.comecar(arqOrd);
+                    arqOrd.gnomeSort();
+                    this.finaliza(arqOrd);
+                    System.out.println("Arquivo Ordenado: ");
+                    this.exibirInfo(arqOrd);//fim
+                    this.comecar(arqRev);
+                    arqRev.gnomeSort();
+                    this.finaliza(arqRev);
+                    System.out.println("Arquivo Reverso: ");
+                    this.exibirInfo(arqRev);//fim
+                    this.comecar(arqCopRand);
+                    arqCopRand.gnomeSort();
+                    this.finaliza(arqCopRand);
+                    System.out.println("Arquivo Aleatorio: ");
+                    this.exibirInfo(arqCopRand);//fim
+                    break;
+                } /*gnome sort*/
+                case 15:{
+                    //merge sort primeira implementação
+
+                    System.out.println("Merge Sort PRIMEIRA implementação");
+                    this.geraArquivos();
+
+                    this.comecar(arqOrd);
+                    arqOrd.mergeSortPrimeiraImplement();
+                    this.finaliza(arqOrd);
+                    System.out.println("Arquivo Ordenado: ");
+                    this.exibirInfo(arqOrd);//fim
+                    this.comecar(arqRev);
+                    arqRev.mergeSortPrimeiraImplement();
+                    this.finaliza(arqRev);
+                    System.out.println("Arquivo Reverso: ");
+                    this.exibirInfo(arqRev);//fim
+                    this.comecar(arqCopRand);
+                    arqCopRand.mergeSortPrimeiraImplement();
+                    this.finaliza(arqCopRand);
+                    System.out.println("Arquivo Aleatorio: ");
+                    this.exibirInfo(arqCopRand);//fim
+                    break;
+                } /*merge sort primeira implementação*/
+                case 16:{
+                    //merge sort segunda implementação
+
+                    System.out.println("Merge Sort SEGUNDA implementação");
+                    this.geraArquivos();
+
+                    this.comecar(arqOrd);
+                    arqOrd.mergeSortSegundaImplement();
+                    this.finaliza(arqOrd);
+                    System.out.println("Arquivo Ordenado: ");
+                    this.exibirInfo(arqOrd);//fim
+                    this.comecar(arqRev);
+                    arqRev.mergeSortSegundaImplement();
+                    this.finaliza(arqRev);
+                    System.out.println("Arquivo Reverso: ");
+                    this.exibirInfo(arqRev);//fim
+                    this.comecar(arqCopRand);
+                    arqCopRand.mergeSortSegundaImplement();
+                    this.finaliza(arqCopRand);
+                    System.out.println("Arquivo Aleatorio: ");
+                    this.exibirInfo(arqCopRand);//fim
+                    break;
+                } /*merge sort segunda implementação*/
             }
         }
 

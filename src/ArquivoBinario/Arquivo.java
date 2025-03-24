@@ -1,7 +1,5 @@
 package ArquivoBinario;
 
-import VetorEstatico.Vetor;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
@@ -95,6 +93,11 @@ public class Arquivo {
 
     public long filesize() throws IOException {
         return arquivo.length() / Registro.length();
+    }
+
+    public void insereNoFinal(Registro registro) throws IOException {
+        this.seekArq((int) this.filesize());
+        registro.gravaNoArq(this.arquivo);
     }
 
     // Métodos auxiliares que não mexem com arquivo binário
@@ -640,10 +643,12 @@ public class Arquivo {
                 min = registro.getNumero();
         } //achei o maior e o menor elementos do meu arquivo
 
-        range = (max-min+1)/2;
+        range = (max-min+1)/5;
 
         for (int i = 0; i < baldes; i++) {
-            arquivos[i] = new Arquivo();
+            String nome = "Arq" + i;
+            arquivos[i] = new Arquivo(nome);
+            arquivos[i].truncate(0);
         } // criei os buckets
 
         for (int i = 0; i < tl; i++) {
@@ -656,7 +661,6 @@ public class Arquivo {
             }
             else{
                 this.seekArq(i); registro.leDoArq(this.arquivo);
-
                 pos = (registro.getNumero()-min)/range;
                 if(pos==baldes)
                     pos--;
@@ -667,24 +671,155 @@ public class Arquivo {
         } //distribui os elementos entre os baldes
 
         for (int i = 0; i < arquivos.length; i++) {
-
             if((int)arquivos[i].filesize()!=0){
                 arquivos[i].insercaoDireta();
             }
         } // baldes ordenados
 
         // aqui preciso colocar os elementos ordenados dos baldes de volta no vetor
+        truncate(0);
         k = 0;
         for (int i = 0; i < baldes; i++) {
             for (int j = 0; j < (int)arquivos[i].filesize(); j++) {
-                arquivos[i].seekArq(i);
-                registro.leDoArq(arquivos[i].getArquivo());
-                seekArq(k); registro.gravaNoArq(this.arquivo);
+                arquivos[i].seekArq(j); registro.leDoArq(arquivos[i].getArquivo());
+                this.seekArq(k); registro.gravaNoArq(this.arquivo);
                 k++;
                 //this.vetor[k++] = buckets[i].getVetor()[j];
             }
         }
     } /*bucket sort*/
+
+    public void gnomeSort() throws IOException{
+        int pos=1;
+        Registro regi = new Registro(), regj = new Registro();
+
+        while(pos<(int)this.filesize()){
+            if(pos==0)
+                pos++;
+            else{
+                this.seekArq(pos); regi.leDoArq(this.arquivo);
+                this.seekArq(pos-1); regj.leDoArq(this.arquivo);
+                if(regi.getNumero()>=regj.getNumero())
+                    pos++;
+                else{
+                    this.seekArq(pos); regj.gravaNoArq(this.arquivo);
+                    this.seekArq(pos-1); regi.gravaNoArq(this.arquivo);
+                    pos--;
+                }
+            }
+        }
+    } /*gnome sort*/
+
+    public void mergeSortPrimeiraImplement() throws IOException{
+        Arquivo arq1 = new Arquivo("Arq1"), arq2 = new Arquivo("Arq2");
+        int seq = 1;
+
+        while(seq<(int)this.filesize()){
+            particao(arq1, arq2);
+            fusaoPrimeiraImplement(arq1, arq2, seq);
+            seq *= 2;
+        }
+    } /*merge sort multiplos de 2*/
+    private void particao(Arquivo arq1, Arquivo arq2) throws IOException {
+        Registro reg = new Registro();
+        arq1.truncate(0);
+        arq2.truncate(0);
+
+        for(int i=0; i<(int)(this.filesize()+1)/2; i++){
+            this.seekArq(i); reg.leDoArq(this.arquivo);
+            arq1.insereNoFinal(reg);
+        }
+        for(int i=(int)(this.filesize()+1)/2; i<(int)this.filesize(); i++){
+            this.seekArq(i); reg.leDoArq(this.arquivo);
+            arq2.insereNoFinal(reg);
+        }
+    } /*particao para auxiliar merge de multiplos de 2*/
+    private void fusaoPrimeiraImplement(Arquivo arq1, Arquivo arq2, int seq) throws IOException {
+        int k=0, i=0, j=0, aux_seq=seq;
+        Registro regi = new Registro(), regj = new Registro();
+
+        while(k<(int)this.filesize()){
+            while(i<seq && j<seq){
+                arq1.seekArq(i); regi.leDoArq(arq1.getArquivo());
+                arq2.seekArq(j); regj.leDoArq(arq2.getArquivo());
+                if(regi.getNumero()<regj.getNumero()){
+                    this.seekArq(k); regi.gravaNoArq(this.arquivo);
+                    k++;
+                    i++;
+                }
+                else{
+                    this.seekArq(k); regj.gravaNoArq(this.arquivo);
+                    k++;
+                    j++;
+                }
+            }
+            while(i<seq){
+                arq1.seekArq(i); regi.leDoArq(arq1.getArquivo());
+                this.seekArq(k); regi.gravaNoArq(this.arquivo);
+                k++;
+                i++;
+            }
+            while(j<seq){
+                arq2.seekArq(j); regj.leDoArq(arq2.getArquivo());
+                this.seekArq(k); regj.gravaNoArq(this.arquivo);
+                k++;
+                j++;
+            }
+
+            seq += aux_seq;
+        }
+    } /*fusao para auxiliar merge de multiplos de 2*/
+
+    public void mergeSortSegundaImplement() throws IOException{
+        Arquivo aux = new Arquivo("Aux");
+        mergeSegundaImplement(0,(int)this.filesize()-1,aux);
+    } /*merge sort qualquer multiplicidade*/
+    private void mergeSegundaImplement(int esq, int dir, Arquivo aux) throws IOException{
+        if(esq<dir){
+            int meio = (esq+dir)/2;
+            mergeSegundaImplement(esq, meio, aux);
+            mergeSegundaImplement(meio+1, dir, aux);
+            fusaoSegundaImplement(esq, meio, meio+1, dir, aux);
+        }
+    }
+    private void fusaoSegundaImplement(int ini1, int fim1, int ini2, int fim2, Arquivo aux) throws IOException{
+        int k=0, i=ini1, j=ini2;
+        Registro regi = new Registro(), regj = new Registro();
+
+        while(i<=fim1 && j<=fim2){
+            this.seekArq(i); regi.leDoArq(this.arquivo);
+            this.seekArq(j); regj.leDoArq(this.arquivo);
+            if(regi.getNumero() < regj.getNumero()){
+                aux.seekArq(k); regi.gravaNoArq(aux.getArquivo());
+                k++;
+                i++;
+            }
+            else{
+                aux.seekArq(k); regj.gravaNoArq(aux.getArquivo());
+                k++;
+                j++;
+            }
+        }
+        while(j<=fim2){
+            this.seekArq(j); regj.leDoArq(this.arquivo);
+            aux.seekArq(k); regj.gravaNoArq(aux.getArquivo());
+            k++;
+            j++;
+        }
+        while(i<=fim1){
+            this.seekArq(i); regi.leDoArq(this.arquivo);
+            aux.seekArq(k); regi.gravaNoArq(aux.getArquivo());
+            k++;
+            i++;
+        }
+
+        k=0;
+        for(int pos = ini1; pos <= fim2; pos++){
+            aux.seekArq(k); regi.leDoArq(aux.getArquivo());
+            this.seekArq(pos); regi.gravaNoArq(this.arquivo);
+            k++;
+        }
+    }
 
     private int gerarAleatorio(int n) {
         Random sorteador = new Random();
