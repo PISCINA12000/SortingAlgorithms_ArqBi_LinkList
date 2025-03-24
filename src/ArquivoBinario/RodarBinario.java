@@ -336,7 +336,7 @@ public class RodarBinario {
                 case 13:{
                     //bucket sort
 
-                    System.out.println("Radix Sort");
+                    System.out.println("Bucket Sort");
                     this.geraArquivos();
 
                     this.comecar(arqOrd);

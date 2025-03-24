@@ -646,19 +646,44 @@ public class Arquivo {
             arquivos[i] = new Arquivo();
         } // criei os buckets
 
-//        for (int i = 0; i < tl; i++) {
-//            if(range==0){
-//                //leio o elemento do arquivo na pos i
-//                //gravo ao final do bucket correto
-//                buckets[0].pushVetor(this.vetor[i]);
-//            }
-//            else{
-//                pos = (this.vetor[i]-min)/range;
-//                if(pos==baldes)
-//                    pos--;
-//                buckets[pos].pushVetor(this.vetor[i]);
-//            }
-//        } //distribui os elementos entre os baldes
+        for (int i = 0; i < tl; i++) {
+            if(range==0){
+                //leio o elemento do arquivo original na pos i
+                this.seekArq(i); registro.leDoArq(this.arquivo);
+                //gravo ao final do bucket correto
+                arquivos[0].seekArq((int)arquivos[0].filesize());
+                registro.gravaNoArq(arquivos[0].getArquivo());
+            }
+            else{
+                this.seekArq(i); registro.leDoArq(this.arquivo);
+
+                pos = (registro.getNumero()-min)/range;
+                if(pos==baldes)
+                    pos--;
+                arquivos[pos].seekArq((int)arquivos[pos].filesize());
+                registro.gravaNoArq(arquivos[pos].getArquivo());
+                //buckets[pos].pushVetor(this.vetor[i]);
+            }
+        } //distribui os elementos entre os baldes
+
+        for (int i = 0; i < arquivos.length; i++) {
+
+            if((int)arquivos[i].filesize()!=0){
+                arquivos[i].insercaoDireta();
+            }
+        } // baldes ordenados
+
+        // aqui preciso colocar os elementos ordenados dos baldes de volta no vetor
+        k = 0;
+        for (int i = 0; i < baldes; i++) {
+            for (int j = 0; j < (int)arquivos[i].filesize(); j++) {
+                arquivos[i].seekArq(i);
+                registro.leDoArq(arquivos[i].getArquivo());
+                seekArq(k); registro.gravaNoArq(this.arquivo);
+                k++;
+                //this.vetor[k++] = buckets[i].getVetor()[j];
+            }
+        }
     } /*bucket sort*/
 
     private int gerarAleatorio(int n) {
