@@ -821,6 +821,10 @@ public class Arquivo {
         }
     }
 
+    public void timSort(){
+
+    } /*tim sort*/
+
     private int gerarAleatorio(int n) {
         Random sorteador = new Random();
         return (sorteador.nextInt(n)) + 1; //Valores de 1 até n
@@ -864,7 +868,7 @@ public class Arquivo {
         arquivo.seek(0);
         while (!eof()) {
             registro.leDoArq(arquivo);
-            System.out.println(registro.getNumero());
+            System.out.print(registro.getNumero()+" ");
 
             /*
             Para exibir nao somente o numero como tambem o conteudo do 'lixo'
@@ -872,5 +876,6 @@ public class Arquivo {
             System.out.println("  " + Arrays.toString(registro.getLixo()));
             */
         }
+        System.out.println();
     }
 }

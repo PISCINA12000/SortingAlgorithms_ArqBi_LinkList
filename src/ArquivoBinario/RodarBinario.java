@@ -54,7 +54,7 @@ public class RodarBinario {
 
     public void geraTabela() throws IOException {
         this.geraArquivoAleatorio();
-        for(int i=1; i<=16; i++){
+        for(int i=1; i<=17; i++){
             // O switch eh para chamar metodos diferentes em cada iteracao
             switch(i){
                 case 1:{
@@ -66,17 +66,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.bubbleSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.bubbleSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.bubbleSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*bubble Sort*/
@@ -89,17 +89,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.insercaoBinaria();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.insercaoBinaria();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.insercaoBinaria();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*insercao Binaria*/
@@ -112,17 +112,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.insercaoDireta();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.insercaoDireta();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.insercaoDireta();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*insercao Direta*/
@@ -135,17 +135,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.shakesort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.shakesort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.shakesort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*shake Sort*/
@@ -158,17 +158,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.selecaoDireta();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.selecaoDireta();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.selecaoDireta();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*selecao direta*/
@@ -181,17 +181,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.shellSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.shellSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.shellSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*shell sort*/
@@ -204,17 +204,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.heapSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.heapSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.heapSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*heap sort*/
@@ -227,17 +227,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.combSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.combSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.combSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*comb sort*/
@@ -250,17 +250,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.quickSortSemPivo();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.quickSortSemPivo();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.quickSortSemPivo();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*quick sort sem pivo*/
@@ -273,17 +273,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.quickSortComPivo();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.quickSortComPivo();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.quickSortComPivo();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*quick sort com pivo*/
@@ -296,17 +296,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.countSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.countSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.countSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*count sort*/
@@ -319,17 +319,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.radixSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.radixSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.radixSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*radix sort*/
@@ -342,17 +342,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.bucketSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.bucketSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.bucketSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*bucket sort*/
@@ -365,17 +365,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.gnomeSort();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.gnomeSort();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.gnomeSort();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*gnome sort*/
@@ -388,17 +388,17 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.mergeSortPrimeiraImplement();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.mergeSortPrimeiraImplement();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.mergeSortPrimeiraImplement();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*merge sort primeira implementação*/
@@ -411,20 +411,43 @@ public class RodarBinario {
                     this.comecar(arqOrd);
                     arqOrd.mergeSortSegundaImplement();
                     this.finaliza(arqOrd);
-                    System.out.println("Arquivo Ordenado: ");
+                    System.out.print("Arquivo Ordenado: ");
                     this.exibirInfo(arqOrd);//fim
                     this.comecar(arqRev);
                     arqRev.mergeSortSegundaImplement();
                     this.finaliza(arqRev);
-                    System.out.println("Arquivo Reverso: ");
+                    System.out.print("Arquivo Reverso: ");
                     this.exibirInfo(arqRev);//fim
                     this.comecar(arqCopRand);
                     arqCopRand.mergeSortSegundaImplement();
                     this.finaliza(arqCopRand);
-                    System.out.println("Arquivo Aleatorio: ");
+                    System.out.print("Arquivo Aleatorio: ");
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*merge sort segunda implementação*/
+                case 17:{
+                    //tim sort
+
+                    System.out.println("Tim Sort");
+                    this.geraArquivos();
+
+                    this.comecar(arqOrd);
+                    arqOrd.timSort();
+                    this.finaliza(arqOrd);
+                    System.out.print("Arquivo Ordenado: ");
+                    this.exibirInfo(arqOrd);//fim
+                    this.comecar(arqRev);
+                    arqRev.timSort();
+                    this.finaliza(arqRev);
+                    System.out.print("Arquivo Reverso: ");
+                    this.exibirInfo(arqRev);//fim
+                    this.comecar(arqCopRand);
+                    arqCopRand.timSort();
+                    this.finaliza(arqCopRand);
+                    System.out.print("Arquivo Aleatorio: ");
+                    this.exibirInfo(arqCopRand);//fim
+                    break;
+                } /*tim sort*/
             }
         }
 

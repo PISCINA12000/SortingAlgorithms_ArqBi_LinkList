@@ -7,13 +7,13 @@ public class Vetor {
     private int[] vetor; //variavel que podera ser declarada com o tamanho desejado
     private int TF; //sera a "CONSTANTE" que poderá ser definida pelo usuário
 
-    public Vetor() {
-        TF = 100;
+    public Vetor(int tamanho) {
+        TF = tamanho;
         vetor = new int[TF + 1]; //declarar 1 a mais para permitir o uso de sentinela
     }
 
-    public Vetor(int tamanho) {
-        TF = tamanho;
+    public Vetor() {
+        TF = 100;
         vetor = new int[TF + 1]; //declarar 1 a mais para permitir o uso de sentinela
     }
 
@@ -50,7 +50,7 @@ public class Vetor {
         vetor[pos] = chave;
     }
 
-    //metodo para alimentar vetor
+    // metodo para alimentar vetor
     public void alimentar(int num) {
         for (int i = 0; i < num; i++) {
             this.vetor[i] = i + 1;
@@ -58,14 +58,14 @@ public class Vetor {
         }
     } /*introduzir valores para o vetor*/
 
-    //metodo de exibicao
+    // metodo de exibicao
     public void exibirVetor() {
         for (int i = 0; i < TL; i++) {
             System.out.println(vetor[i]);
         }
     } /*exibicao do vetor*/
 
-    //Metodo para adicionar no vetor
+    // Metodo para adicionar no vetor
     public boolean pushVetor(int chave) {
         if (TL < TF) {
             vetor[TL] = chave;
@@ -75,7 +75,7 @@ public class Vetor {
             return false;
     } /*adicionar um elemento ao final*/
 
-    //Metodo de embaralhamento
+    // Metodo de embaralhamento
     public void embaralhar() {
         Random rand = new Random();
         for (int i = this.TL - 1; i > 0; i--) {
@@ -87,7 +87,7 @@ public class Vetor {
         }
     } /*embaralhar o vetor*/
 
-    //Metodo de remanejamento
+    // Metodo de remanejamento
     public void remanejar(int pos) {
         for (int i = pos; i < TL - 1; i++) {
             this.vetor[pos] = this.vetor[i + 1];
@@ -95,7 +95,33 @@ public class Vetor {
         this.TL--;
     } /*remanejar vetor*/
 
-    //Métodos de busca
+    // Obter o dígito no index passado
+    private int obterDigito(int numero, int d) {
+        int divisor = 1;
+
+        // Calcula o divisor para alcançar a posição desejada
+        for (int i = 1; i < d; i++) {
+            divisor *= 10;
+        }
+
+        return (numero / divisor) % 10;
+    }
+
+    // Conta a quantidade de dígitos de um número
+    private int contaDigitos(int numero){
+        int contador = 0;
+        if(numero!=0){
+            while(numero!=0){
+                numero = numero/10;
+                contador++;
+            }
+            return contador;
+        }
+        //se o numero recebido for 0, ele retorna que possui apenas 1 digito
+        return 1;
+    }
+
+    // MÉTODOS DE BUSCA -------------------------------------------------------
     public int buscaExaustiva(int chave) {
         int pos = 0;
         while (pos < TL && chave != vetor[pos]) {
@@ -173,7 +199,7 @@ public class Vetor {
         return meio;
     } /*binaria com indice*/
 
-    //Métodos de ordenação
+    // MÉTODOS DE ORDENAÇÃO ---------------------------------------------------
     public void insercaoDireta() {
         int aux, pos;
         for (int i = 1; i < TL; i++) {
@@ -398,22 +424,26 @@ public class Vetor {
                 maior = this.vetor[i];
         }
         //achei o maior numero do meu vetor
+
         Vetor countVet = new Vetor(maior+1);
         countVet.setTL(maior+1); //deixa todas as posicoes com zeros
         for(int i=0; i<this.TL; i++){
             countVet.vetor[this.vetor[i]]++;
         }
         //contei as ocorrencias dos numeros de vetor em countVet
+
         for(int i=1; i<countVet.getTL(); i++)
             countVet.vetor[i] = countVet.vetor[i] + countVet.vetor[i-1];
         //realizei a soma cumulativa
+
         Vetor finalVet = new Vetor(this.TL);
         finalVet.setTL(this.TL);
         for(int i=this.TL-1; i>=0; i--){
             finalVet.vetor[countVet.vetor[vetor[i]] - 1] = vetor[i]; // Ajuste do índice
             countVet.vetor[vetor[i]]--;
         }
-        //coloco os elementos ordenados no vetor original
+        //coloco os elementos ordenados no vetor final
+
         for(int i=0; i<this.TL; i++)
             vetor[i] = finalVet.vetor[i];
         //copiei para o vetor original
@@ -456,28 +486,6 @@ public class Vetor {
             vetor[i] = finalVet.vetor[i];
         //copiei para o vetor original
     } /*count sort para auxiliar o radix sort*/
-    private int obterDigito(int numero, int d) {
-        int divisor = 1;
-
-        // Calcula o divisor para alcançar a posição desejada
-        for (int i = 1; i < d; i++) {
-            divisor *= 10;
-        }
-
-        return (numero / divisor) % 10;
-    }
-    private int contaDigitos(int numero){
-        int contador = 0;
-        if(numero!=0){
-            while(numero!=0){
-                numero = numero/10;
-                contador++;
-            }
-            return contador;
-        }
-        //se o numero recebido for 0, ele retorna que possui apenas 1 digito
-        return 1;
-    }
 
     public void bucketSort(){
         int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE, range, baldes=5, pos, k;
@@ -551,7 +559,7 @@ public class Vetor {
             fusao(vet1, vet2, seq);
             seq *= 2;
         }
-    } /*merge sort*/
+    } /*merge sort primeira implementação*/
     private void particao(Vetor vet1, Vetor vet2){
         for (int i = 0; i < (this.TL+1)/2; i++) {
             vet1.pushVetor(this.vetor[i]);
@@ -560,7 +568,6 @@ public class Vetor {
             vet2.pushVetor(this.vetor[i]);
         }
     }
-    // fusao para vetores de tamanhos múltiplos de 2
     private void fusao(Vetor vet1, Vetor vet2, int seq) {
         int k, i, j, cont1, cont2;
 
@@ -600,7 +607,7 @@ public class Vetor {
     public void mergeSortSegundaImplement(){
         int aux[] = new int[this.TL];
         mergeSegundaImplement(0, this.TL-1, aux);
-    }
+    } /*merge sort segunda implementação*/
     private void mergeSegundaImplement(int esq, int dir, int[] aux) {
         if (esq < dir) {
             int meio = (esq + dir) / 2;
@@ -634,4 +641,8 @@ public class Vetor {
         for (int pos = ini1; pos <= fim2; pos++)
             this.vetor[pos] = aux[k++];
     }
+
+    public void timSort(){
+
+    } /*tim sort*/
 }

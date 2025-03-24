@@ -274,6 +274,13 @@ public class RodarVetor {
                             continuar();
                             break;
                         } /*merge sort qualquer multiplicidade*/
+                        case 17:{
+                            /*tim sort*/
+                            vet.timSort();
+                            System.out.println("Vetor ordenado com sucesso!");
+                            continuar();
+                            break;
+                        } /*tim sort*/
                         default:
                             System.out.println("Nenhuma opcao valida selecionada!");
                     }

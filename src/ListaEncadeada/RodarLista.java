@@ -27,15 +27,20 @@ public class RodarLista {
         int opc;
         Scanner input = new Scanner(System.in);
         System.out.println("----- ORDENAR ELEMENTOS -----");
-        System.out.println("1 - Inserção Direta (feito)");
-        System.out.println("2 - Bubble Sort (feito)");
-        System.out.println("3 - Shakesort (feito)");
-        System.out.println("4 - Seleção Direta (feito)");
-        System.out.println("5 - Comb Sort (feito)");
-        System.out.println("6 - Shell Sort (feito)");
-        System.out.println("7 - Insercao Binaria (feito)");
-        System.out.println("8 - Heap Sort (feito)");
-        System.out.println("9 - Quick Sort (fazendo)");
+        System.out.println("1 - Inserção Direta");
+        System.out.println("2 - Bubble Sort ");
+        System.out.println("3 - Shakesort");
+        System.out.println("4 - Seleção Direta");
+        System.out.println("5 - Comb Sort");
+        System.out.println("6 - Shell Sort");
+        System.out.println("7 - Insercao Binaria");
+        System.out.println("8 - Heap Sort");
+        System.out.println("9 - Quick Sort SEM pivo");
+        System.out.println("10 - Quick Sort COM pivo");
+        System.out.println("11 - Count Sort");
+        System.out.println("12 - Radix Sort");
+        System.out.println("13 - Bucket Sort");
+        System.out.println("14 - Gnome Sort (fazendo)");
         System.out.print("INPUT: ");
         opc = input.nextInt();
         return opc;
@@ -161,6 +166,42 @@ public class RodarLista {
                             continuar();
                             break;
                         }/*quick sort com pivo*/
+                        case 11:{
+                            lista.countSort();
+                            System.out.println("Lista Ordenada com sucesso!");
+                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
+                            lista.printarValores();
+                            System.out.println("***** listagem concluída *****");
+                            continuar();
+                            break;
+                        }/*count sort*/
+                        case 12:{
+                            lista.radixSort();
+                            System.out.println("Lista Ordenada com sucesso!");
+                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
+                            lista.printarValores();
+                            System.out.println("***** listagem concluída *****");
+                            continuar();
+                            break;
+                        }/*count sort*/
+                        case 13:{
+                            lista.bucketSort();
+                            System.out.println("Lista Ordenada com sucesso!");
+                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
+                            lista.printarValores();
+                            System.out.println("***** listagem concluída *****");
+                            continuar();
+                            break;
+                        }/*bucket sort*/
+                        case 14:{
+                            lista.gnomeSort();
+                            System.out.println("Lista Ordenada com sucesso!");
+                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
+                            lista.printarValores();
+                            System.out.println("***** listagem concluída *****");
+                            continuar();
+                            break;
+                        }/*gnome sort*/
                         default:
                             System.out.println("Essa opção não é válida");
                     }
