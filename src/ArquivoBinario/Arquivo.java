@@ -1,5 +1,7 @@
 package ArquivoBinario;
 
+import VetorEstatico.Vetor;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
@@ -13,6 +15,9 @@ public class Arquivo {
     public Arquivo(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
         this.arquivo = criaArquivo();
+    }
+    public Arquivo(){
+        this("");
     }
 
     // Gets e Sets
@@ -90,6 +95,31 @@ public class Arquivo {
 
     public long filesize() throws IOException {
         return arquivo.length() / Registro.length();
+    }
+
+    // Métodos auxiliares que não mexem com arquivo binário
+    private int contaDigitos(int numero){
+        int contador = 0;
+        if(numero!=0){
+            while(numero!=0){
+                numero = numero/10;
+                contador++;
+            }
+            return contador;
+        }
+        //se o numero recebido for 0, ele retorna que possui apenas 1 digito
+        return 1;
+    }
+
+    private int obterDigito(int numero, int d) {
+        int divisor = 1;
+
+        // Calcula o divisor para alcançar a posição desejada
+        for (int i = 1; i < d; i++) {
+            divisor *= 10;
+        }
+
+        return (numero / divisor) % 10;
     }
 
     //Metodos de ordenacao
@@ -505,9 +535,131 @@ public class Arquivo {
         } // copiei os dados ordenados para o arquivo original
     } /*count sort*/
 
-    public void radixSort(){
-
+    public void radixSort() throws IOException{
+        int d=0, tl = (int)this.filesize();
+        Registro registro = new Registro();
+        for(int i=0; i<tl; i++){
+            this.seekArq(i); registro.leDoArq(this.arquivo);
+            if(contaDigitos(registro.getNumero()) > d)
+                d = contaDigitos(registro.getNumero());
+        } //tenho a quantidade máxima de digítos possíveis
+        for(int i=1; i<=d; i++)
+            countSort(i); //chamar o count pelos digítos
     } /*radix sort*/
+    private void countSort(int d) throws IOException {
+        int maior=Integer.MIN_VALUE, i;
+        Arquivo arquivoCont = new Arquivo("Contador");
+        Arquivo arquivoFinal = new Arquivo("Final");
+        Registro regi = new Registro(), regj = new Registro();
+
+        seekArq(0); regi.leDoArq(this.arquivo);
+        while(!eof()){
+            if(obterDigito(regi.getNumero(), d) > maior){
+                maior = regi.getNumero();
+            }
+            regi.leDoArq(this.arquivo);
+        } // depois daqui tenho o maior numero do meu arquivo
+        if(obterDigito(regi.getNumero(), d) > maior){
+            maior = regi.getNumero();
+        }
+//        System.out.println("Maior elemento: " + maior);
+
+        arquivoCont.truncate(0);
+        arquivoCont.geraArquivoZerado(maior+1);
+        this.seekArq(0); regi.leDoArq(this.arquivo);
+        while(!eof()){
+
+            arquivoCont.seekArq(obterDigito(regi.getNumero(), d)); regj.leDoArq(arquivoCont.getArquivo());
+            regj.setNumero(regj.getNumero()+1); // incremento
+            arquivoCont.seekArq(obterDigito(regi.getNumero(), d)); regj.gravaNoArq(arquivoCont.getArquivo());
+            regi.leDoArq(this.arquivo);
+        }
+        arquivoCont.seekArq(obterDigito(regi.getNumero(),d)); regj.leDoArq(arquivoCont.getArquivo());
+        regj.setNumero(regj.getNumero()+1); // incremento
+        arquivoCont.seekArq(obterDigito(regi.getNumero(),d)); regj.gravaNoArq(arquivoCont.getArquivo());
+        // ocorrencias contadas nas respectivas posicoes
+//        System.out.println("Exibição das ocorrencias por posições:");
+//        arquivoCont.exibirArquivo();
+
+        i=1;
+        arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+        while(!arquivoCont.eof()){
+            arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+            arquivoCont.seekArq(i-1); regj.leDoArq(arquivoCont.getArquivo());
+            regi.setNumero(regi.getNumero()+regj.getNumero());
+            arquivoCont.seekArq(i); regi.gravaNoArq(arquivoCont.getArquivo());
+            i++;
+            arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+        }
+        arquivoCont.seekArq(i); regi.leDoArq(arquivoCont.getArquivo());
+        arquivoCont.seekArq(i-1); regj.leDoArq(arquivoCont.getArquivo());
+        regi.setNumero(regi.getNumero()+regj.getNumero());
+        arquivoCont.seekArq(i); regi.gravaNoArq(arquivoCont.getArquivo());
+        // realizei a soma cumulativa
+//        System.out.println("Exibição da soma cumulativa:");
+//        arquivoCont.exibirArquivo();
+
+        arquivoFinal.geraArquivoZerado((int)filesize());
+        for(i=(int)filesize()-1; i>=0; i--){
+            int pos;
+            // vetor[i]
+            seekArq(i); regi.leDoArq(this.arquivo);
+            pos = obterDigito(regi.getNumero(),d);
+            // countVet.vetor[pos] - 1
+            arquivoCont.seekArq(pos); regi.leDoArq(arquivoCont.getArquivo());
+            pos = regi.getNumero()-1;
+            // finalVet[pos] = vetor[i]
+            seekArq(i); regj.leDoArq(this.arquivo);
+            arquivoFinal.seekArq(pos); regj.gravaNoArq(arquivoFinal.getArquivo());
+            // countVet.vetor[vetor[i]]--
+            seekArq(i); regi.leDoArq(this.arquivo);
+            pos = obterDigito(regi.getNumero(),d);
+            arquivoCont.seekArq(pos); regi.leDoArq(arquivoCont.getArquivo());
+            regi.setNumero(regi.getNumero()-1);
+            arquivoCont.seekArq(pos); regi.gravaNoArq(arquivoCont.getArquivo());
+        } // coloquei os elementos ordenados no arquivo final
+
+        arquivoFinal.seekArq(0); regi.leDoArq(arquivoFinal.getArquivo());
+        this.seekArq(0); regi.gravaNoArq(this.arquivo);
+        while(!arquivoFinal.eof()){
+            regi.leDoArq(arquivoFinal.getArquivo());
+            regi.gravaNoArq(this.arquivo);
+        } // copiei os dados ordenados para o arquivo original
+    }
+
+    public void bucketSort() throws IOException{
+        int max=Integer.MIN_VALUE, min=Integer.MAX_VALUE, range, baldes=5, pos, k, tl=(int)filesize();
+        Arquivo[] arquivos = new Arquivo[baldes];
+        Registro registro = new Registro();
+
+        for (int i = 0; i < tl; i++) {
+            this.seekArq(i); registro.leDoArq(this.arquivo);
+            if(registro.getNumero()>max)
+                max = registro.getNumero();
+            if(registro.getNumero()<min)
+                min = registro.getNumero();
+        } //achei o maior e o menor elementos do meu arquivo
+
+        range = (max-min+1)/2;
+
+        for (int i = 0; i < baldes; i++) {
+            arquivos[i] = new Arquivo();
+        } // criei os buckets
+
+//        for (int i = 0; i < tl; i++) {
+//            if(range==0){
+//                //leio o elemento do arquivo na pos i
+//                //gravo ao final do bucket correto
+//                buckets[0].pushVetor(this.vetor[i]);
+//            }
+//            else{
+//                pos = (this.vetor[i]-min)/range;
+//                if(pos==baldes)
+//                    pos--;
+//                buckets[pos].pushVetor(this.vetor[i]);
+//            }
+//        } //distribui os elementos entre os baldes
+    } /*bucket sort*/
 
     private int gerarAleatorio(int n) {
         Random sorteador = new Random();

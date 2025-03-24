@@ -50,7 +50,8 @@ public class RodarVetor {
         System.out.println("12 - Radix Sort (feito)");
         System.out.println("13 - Bucket Sort (feito)");
         System.out.println("14 - Gnome Sort (feito)");
-        System.out.println("15 - Merge Sort (fazendo)");
+        System.out.println("15 - Merge Sort - MÚLTIPLOS DE 2 (feito)");
+        System.out.println("16 - Merge Sort - QUALQUER MULTIPLICIDADE");
         System.out.print("INPUT: ");
         opcInterno = input.nextInt();
         return opcInterno;
@@ -67,7 +68,7 @@ public class RodarVetor {
 
     public static void rodar() {
         Vetor vet = new Vetor();
-        vet.alimentar(10);
+        vet.alimentar(8);
         int opc, opcInterno, num;
         Scanner input = new Scanner(System.in);
 
@@ -260,12 +261,19 @@ public class RodarVetor {
                             break;
                         } /*gnome sort*/
                         case 15:{
-                            /*merge sort*/
+                            /*merge sort multiplos de 2*/
                             vet.mergeSort();
                             System.out.println("Vetor ordenado com sucesso!");
                             continuar();
                             break;
-                        } /*merge sort*/
+                        } /*merge sort multiplos de 2*/
+                        case 16:{
+                            /*merge sort qualquer multiplicidade*/
+                            vet.mergeSortSegundaImplement();
+                            System.out.println("Vetor ordenado com sucesso!");
+                            continuar();
+                            break;
+                        } /*merge sort qualquer multiplicidade*/
                         default:
                             System.out.println("Nenhuma opcao valida selecionada!");
                     }

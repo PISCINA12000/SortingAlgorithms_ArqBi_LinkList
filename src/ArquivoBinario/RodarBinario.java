@@ -310,6 +310,52 @@ public class RodarBinario {
                     this.exibirInfo(arqCopRand);//fim
                     break;
                 } /*count sort*/
+                case 12:{
+                    //radix sort
+
+                    System.out.println("Radix Sort");
+                    this.geraArquivos();
+
+                    this.comecar(arqOrd);
+                    arqOrd.radixSort();
+                    this.finaliza(arqOrd);
+                    System.out.println("Arquivo Ordenado: ");
+                    this.exibirInfo(arqOrd);//fim
+                    this.comecar(arqRev);
+                    arqRev.radixSort();
+                    this.finaliza(arqRev);
+                    System.out.println("Arquivo Reverso: ");
+                    this.exibirInfo(arqRev);//fim
+                    this.comecar(arqCopRand);
+                    arqCopRand.radixSort();
+                    this.finaliza(arqCopRand);
+                    System.out.println("Arquivo Aleatorio: ");
+                    this.exibirInfo(arqCopRand);//fim
+                    break;
+                } /*radix sort*/
+                case 13:{
+                    //bucket sort
+
+                    System.out.println("Radix Sort");
+                    this.geraArquivos();
+
+                    this.comecar(arqOrd);
+                    arqOrd.bucketSort();
+                    this.finaliza(arqOrd);
+                    System.out.println("Arquivo Ordenado: ");
+                    this.exibirInfo(arqOrd);//fim
+                    this.comecar(arqRev);
+                    arqRev.bucketSort();
+                    this.finaliza(arqRev);
+                    System.out.println("Arquivo Reverso: ");
+                    this.exibirInfo(arqRev);//fim
+                    this.comecar(arqCopRand);
+                    arqCopRand.bucketSort();
+                    this.finaliza(arqCopRand);
+                    System.out.println("Arquivo Aleatorio: ");
+                    this.exibirInfo(arqCopRand);//fim
+                    break;
+                } /*bucket sort*/
             }
         }
 

@@ -422,7 +422,6 @@ public class Vetor {
     public void radixSort() {
         int d=0;
         for(int i=0; i<this.TL; i++){
-            //System.out.println("Qtde de Digitos do numero "+vetor[i]+": "+contaDigitos(vetor[i]));
             if(contaDigitos(this.vetor[i]) > d)
                 d = contaDigitos(this.vetor[i]);
         } // tenho a quantidade maxima de digitos possiveis nos elementos do meu vetor
@@ -430,7 +429,7 @@ public class Vetor {
         for(int i=1; i<=d; i++)
             countSort(i); //chamar algum metodo que ira ordenar pelo digito
     } /*radix sort*/
-    public void countSort(int d){
+    private void countSort(int d){
         int maior=0;
         for(int i=0; i<this.TL; i++){
             if(obterDigito(this.vetor[i], d) > maior)
@@ -561,6 +560,7 @@ public class Vetor {
             vet2.pushVetor(this.vetor[i]);
         }
     }
+    // fusao para vetores de tamanhos múltiplos de 2
     private void fusao(Vetor vet1, Vetor vet2, int seq) {
         int k, i, j, cont1, cont2;
 
@@ -595,5 +595,43 @@ public class Vetor {
         while (j < vet2.getTL()) {
             this.vetor[k++] = vet2.getVetor()[j++];
         }
+    }
+
+    public void mergeSortSegundaImplement(){
+        int aux[] = new int[this.TL];
+        mergeSegundaImplement(0, this.TL-1, aux);
+    }
+    private void mergeSegundaImplement(int esq, int dir, int[] aux) {
+        if (esq < dir) {
+            int meio = (esq + dir) / 2;
+            mergeSegundaImplement(esq, meio, aux);
+            mergeSegundaImplement(meio + 1, dir, aux);
+            fusaoSegundaImplement(esq, meio, meio + 1, dir, aux);
+        }
+    }
+    private void fusaoSegundaImplement(int ini1, int fim1, int ini2, int fim2, int aux[]){
+        int k = 0, i = ini1, j = ini2;
+        while (i <= fim1 && j <= fim2) {
+            if (this.vetor[i] < this.vetor[j])
+                aux[k++] = this.vetor[i++];
+            else
+                aux[k++] = this.vetor[j++];
+        }
+        if (i == ini2) // não preciso do if
+        {
+            // sobraram elementos em 'j'
+            while (j <= fim2)
+                aux[k++] = this.vetor[j++];
+        }
+        else
+        {
+            // sobraram elementos em 'i'
+            while (i <= fim1)
+                aux[k++] = this.vetor[i++];
+        }
+
+        k = 0;
+        for (int pos = ini1; pos <= fim2; pos++)
+            this.vetor[pos] = aux[k++];
     }
 }
