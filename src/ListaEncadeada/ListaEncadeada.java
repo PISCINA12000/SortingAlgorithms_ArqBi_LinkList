@@ -584,4 +584,65 @@ public class ListaEncadeada {
             }
         }
     } /*gnomeSort*/
+
+    public void mergeSortPri(){
+        ListaEncadeada list1 = new ListaEncadeada();
+        ListaEncadeada list2 = new ListaEncadeada();
+        int seq = 1, tl = contaLista();
+
+        while(seq<tl){
+            particaoMergePri(list1, list2);
+            fusaoMergePri(list1, list2, seq);
+            seq *= 2;
+        }
+    } /*mergeSort primeira implementação*/
+    private void particaoMergePri(ListaEncadeada list1, ListaEncadeada list2){
+        int tl = contaLista();
+        NoLista aux;
+
+        aux = this.inicio;
+        for(int i=0; i<(tl+1)/2; i++){
+            list1.addFinal(aux.getInfo());
+            aux = aux.getProx();
+        }
+        while(aux!=null){
+            list2.addFinal(aux.getInfo());
+            aux = aux.getProx();
+        }
+    }
+    private void fusaoMergePri(ListaEncadeada list1, ListaEncadeada list2, int seq){
+        NoLista auxi=list1.inicio, auxy=list2.inicio, auxk=this.inicio;
+        int aux_seq = seq, i=0, j=0;
+
+        while(auxk != this.fim.getProx()){
+            while(i<seq && j<seq){
+                if(auxi.getInfo() < auxy.getInfo()){
+                    auxk.setInfo(auxi.getInfo());
+                    auxk = auxk.getProx(); //PRÓXIMO DA LISTA PRINCIPAL
+                    auxi = auxi.getProx(); //PRÓXIMO DA LISTA 1
+                    i++;
+                }
+                else{
+                    auxk.setInfo(auxy.getInfo());
+                    auxk = auxk.getProx(); //PRÓXIMO DA LISTA PRINCIPAL
+                    auxy = auxy.getProx(); //PRÓXIMO DA LISTA 2
+                    j++;
+                }
+            }
+            while(i<seq){
+                auxk.setInfo(auxi.getInfo());
+                auxk = auxk.getProx(); //PRÓXIMO DA LISTA PRINCIPAL
+                auxi = auxi.getProx(); //PRÓXIMO DA LISTA 1
+                i++;
+            }
+            while(j<seq){
+                auxk.setInfo(auxy.getInfo());
+                auxk = auxk.getProx(); //PRÓXIMO DA LISTA PRINCIPAL
+                auxy = auxy.getProx(); //PRÓXIMO DA LISTA 2
+                j++;
+            }
+
+            seq += aux_seq;
+        }
+    }
 }

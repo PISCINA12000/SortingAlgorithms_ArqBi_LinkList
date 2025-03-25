@@ -40,7 +40,8 @@ public class RodarLista {
         System.out.println("11 - Count Sort");
         System.out.println("12 - Radix Sort");
         System.out.println("13 - Bucket Sort");
-        System.out.println("14 - Gnome Sort (fazendo)");
+        System.out.println("14 - Gnome Sort");
+        System.out.println("15 - Merge Sort PRIMEIRA implementação");
         System.out.print("INPUT: ");
         opc = input.nextInt();
         return opc;
@@ -202,13 +203,22 @@ public class RodarLista {
                             continuar();
                             break;
                         }/*gnome sort*/
+                        case 15:{
+                            lista.mergeSortPri();
+                            System.out.println("Lista Ordenada com sucesso!");
+                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
+                            lista.printarValores();
+                            System.out.println("***** listagem concluída *****");
+                            continuar();
+                            break;
+                        }/*merge sort primeira implementação*/
                         default:
                             System.out.println("Essa opção não é válida");
                     }
                     break;
                 }/*ordenações*/
                 case 4:{
-                    lista.criarElementosRand(10);
+                    lista.criarElementosRand(16);
                     System.out.println("Elementos criados com sucesso!");
                     continuar();
                     break;
