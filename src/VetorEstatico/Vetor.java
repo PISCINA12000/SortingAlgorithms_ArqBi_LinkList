@@ -419,34 +419,35 @@ public class Vetor {
 
     public void countSort(){
         int maior=0;
+
+        //achar o maior numero do meu vetor
         for(int i=0; i<this.TL; i++){
             if(this.vetor[i]>maior)
                 maior = this.vetor[i];
         }
-        //achei o maior numero do meu vetor
 
+        //contar as ocorrencias dos numeros de vetor em countVet
         Vetor countVet = new Vetor(maior+1);
         countVet.setTL(maior+1); //deixa todas as posicoes com zeros
         for(int i=0; i<this.TL; i++){
             countVet.vetor[this.vetor[i]]++;
         }
-        //contei as ocorrencias dos numeros de vetor em countVet
 
+        //realizar a soma cumulativa
         for(int i=1; i<countVet.getTL(); i++)
             countVet.vetor[i] = countVet.vetor[i] + countVet.vetor[i-1];
-        //realizei a soma cumulativa
 
+        //coloco os elementos ordenados no vetor final
         Vetor finalVet = new Vetor(this.TL);
         finalVet.setTL(this.TL);
         for(int i=this.TL-1; i>=0; i--){
             finalVet.vetor[countVet.vetor[vetor[i]] - 1] = vetor[i]; // Ajuste do índice
             countVet.vetor[vetor[i]]--;
         }
-        //coloco os elementos ordenados no vetor final
 
+        //copiei para o vetor original
         for(int i=0; i<this.TL; i++)
             vetor[i] = finalVet.vetor[i];
-        //copiei para o vetor original
     } /*count sort*/
 
     public void radixSort() {
