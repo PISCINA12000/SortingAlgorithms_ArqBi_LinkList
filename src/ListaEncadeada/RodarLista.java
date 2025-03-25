@@ -41,7 +41,7 @@ public class RodarLista {
         System.out.println("12 - Radix Sort");
         System.out.println("13 - Bucket Sort");
         System.out.println("14 - Gnome Sort");
-        System.out.println("15 - Merge Sort PRIMEIRA implementação");
+        System.out.println("15 - Merge Sort PRIMEIRA implementação (fazendo)");
         System.out.print("INPUT: ");
         opc = input.nextInt();
         return opc;

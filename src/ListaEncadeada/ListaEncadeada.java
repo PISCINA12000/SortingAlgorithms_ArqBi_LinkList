@@ -614,7 +614,7 @@ public class ListaEncadeada {
         NoLista auxi=list1.inicio, auxy=list2.inicio, auxk=this.inicio;
         int aux_seq = seq, i=0, j=0;
 
-        while(auxk != this.fim.getProx()){
+        while(auxi!=null && auxy!=null){
             while(i<seq && j<seq){
                 if(auxi.getInfo() < auxy.getInfo()){
                     auxk.setInfo(auxi.getInfo());

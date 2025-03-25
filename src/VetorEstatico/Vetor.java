@@ -618,6 +618,7 @@ public class Vetor {
     }
     private void fusaoSegundaImplement(int ini1, int fim1, int ini2, int fim2, int aux[]){
         int k = 0, i = ini1, j = ini2;
+
         while (i <= fim1 && j <= fim2) {
             if (this.vetor[i] < this.vetor[j])
                 aux[k++] = this.vetor[i++];

@@ -15,7 +15,7 @@ public class Arquivo {
         this.arquivo = criaArquivo();
     }
     public Arquivo(){
-        this("");
+        this("temp");
     }
 
     // Gets e Sets
@@ -771,7 +771,7 @@ public class Arquivo {
     } /*fusao para auxiliar merge de multiplos de 2*/
 
     public void mergeSortSegundaImplement() throws IOException{
-        Arquivo aux = new Arquivo("Aux");
+        Arquivo aux = new Arquivo();
         mergeSegundaImplement(0,(int)this.filesize()-1,aux);
     } /*merge sort qualquer multiplicidade*/
     private void mergeSegundaImplement(int esq, int dir, Arquivo aux) throws IOException{
@@ -782,42 +782,42 @@ public class Arquivo {
             fusaoSegundaImplement(esq, meio, meio+1, dir, aux);
         }
     }
-    private void fusaoSegundaImplement(int ini1, int fim1, int ini2, int fim2, Arquivo aux) throws IOException{
-        int k=0, i=ini1, j=ini2;
+    private void fusaoSegundaImplement(int ini1, int fim1, int ini2, int fim2, Arquivo arqAux) throws IOException {
+        int i = ini1, j = ini2;
         Registro regi = new Registro(), regj = new Registro();
+        arqAux.truncate(0);
 
-        while(i<=fim1 && j<=fim2){
-            this.seekArq(i); regi.leDoArq(this.arquivo);
-            this.seekArq(j); regj.leDoArq(this.arquivo);
-            if(regi.getNumero() < regj.getNumero()){
-                aux.seekArq(k); regi.gravaNoArq(aux.getArquivo());
-                k++;
+        while (i <= fim1 && j <= fim2) {
+            this.seekArq(i);
+            regi.leDoArq(this.arquivo);
+            this.seekArq(j);
+            regj.leDoArq(this.arquivo);
+            if (regi.getNumero() < regj.getNumero()) {
+                arqAux.insereNoFinal(regi);
                 i++;
-            }
-            else{
-                aux.seekArq(k); regj.gravaNoArq(aux.getArquivo());
-                k++;
+            } else {
+                arqAux.insereNoFinal(regj);
                 j++;
             }
         }
-        while(j<=fim2){
-            this.seekArq(j); regj.leDoArq(this.arquivo);
-            aux.seekArq(k); regj.gravaNoArq(aux.getArquivo());
-            k++;
+        while (j <= fim2) {
+            this.seekArq(j);
+            regj.leDoArq(this.arquivo);
+            arqAux.insereNoFinal(regj);
             j++;
         }
-        while(i<=fim1){
-            this.seekArq(i); regi.leDoArq(this.arquivo);
-            aux.seekArq(k); regi.gravaNoArq(aux.getArquivo());
-            k++;
+        while (i <= fim1) {
+            this.seekArq(i);
+            regi.leDoArq(this.arquivo);
+            arqAux.insereNoFinal(regi);
             i++;
         }
 
-        k=0;
-        for(int pos = ini1; pos <= fim2; pos++){
-            aux.seekArq(k); regi.leDoArq(aux.getArquivo());
-            this.seekArq(pos); regi.gravaNoArq(this.arquivo);
-            k++;
+        arqAux.seekArq(0);
+        for (int pos = ini1; pos <= fim2; pos++) {
+            regi.leDoArq(arqAux.getArquivo());
+            this.seekArq(pos);
+            regi.gravaNoArq(this.arquivo);
         }
     }
 
