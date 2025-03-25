@@ -33,7 +33,7 @@ public class RodarLista {
         System.out.println("4 - Seleção Direta");
         System.out.println("5 - Comb Sort");
         System.out.println("6 - Shell Sort");
-        System.out.println("7 - Insercao Binaria");
+        System.out.println("7 - Inserção Binaria");
         System.out.println("8 - Heap Sort");
         System.out.println("9 - Quick Sort SEM pivo");
         System.out.println("10 - Quick Sort COM pivo");
@@ -41,7 +41,8 @@ public class RodarLista {
         System.out.println("12 - Radix Sort");
         System.out.println("13 - Bucket Sort");
         System.out.println("14 - Gnome Sort");
-        System.out.println("15 - Merge Sort PRIMEIRA implementação (fazendo)");
+        System.out.println("15 - Merge Sort PRIMEIRA implementação");
+        System.out.println("16 - Merge Sort SEGUNDA implementação");
         System.out.print("INPUT: ");
         opc = input.nextInt();
         return opc;
@@ -85,7 +86,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*inserção direta*/
+                        } /*inserção direta*/
                         case 2:{
                             lista.bubbleSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -94,7 +95,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*bubble sort*/
+                        } /*bubble sort*/
                         case 3:{
                             lista.shakesort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -103,7 +104,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*shake sort*/
+                        } /*shake sort*/
                         case 4:{
                             lista.selecaoDireta();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -112,7 +113,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*seleção direta*/
+                        } /*seleção direta*/
                         case 5:{
                             lista.combSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -121,7 +122,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*comb sort*/
+                        } /*comb sort*/
                         case 6:{
                             lista.shellSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -130,7 +131,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*shell sort*/
+                        } /*shell sort*/
                         case 7:{
                             lista.insercaoBinaria();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -139,7 +140,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*insercao binaria*/
+                        } /*insercao binaria*/
                         case 8:{
                             lista.heapSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -148,7 +149,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*heap sort*/
+                        } /*heap sort*/
                         case 9:{
                             lista.quickSortSemPivo();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -157,7 +158,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*quick sort sem pivo*/
+                        } /*quick sort sem pivo*/
                         case 10:{
                             lista.quickSortComPivo();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -166,7 +167,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*quick sort com pivo*/
+                        } /*quick sort com pivo*/
                         case 11:{
                             lista.countSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -175,7 +176,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*count sort*/
+                        } /*count sort*/
                         case 12:{
                             lista.radixSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -184,7 +185,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*count sort*/
+                        } /*count sort*/
                         case 13:{
                             lista.bucketSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -193,7 +194,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*bucket sort*/
+                        } /*bucket sort*/
                         case 14:{
                             lista.gnomeSort();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -202,7 +203,7 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*gnome sort*/
+                        } /*gnome sort*/
                         case 15:{
                             lista.mergeSortPri();
                             System.out.println("Lista Ordenada com sucesso!");
@@ -211,7 +212,16 @@ public class RodarLista {
                             System.out.println("***** listagem concluída *****");
                             continuar();
                             break;
-                        }/*merge sort primeira implementação*/
+                        } /*merge sort primeira implementação*/
+                        case 16:{
+                            lista.mergeSortSeg();
+                            System.out.println("Lista Ordenada com sucesso!");
+                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
+                            lista.printarValores();
+                            System.out.println("***** listagem concluída *****");
+                            continuar();
+                            break;
+                        } /*merge sort segunda implementação*/
                         default:
                             System.out.println("Essa opção não é válida");
                     }

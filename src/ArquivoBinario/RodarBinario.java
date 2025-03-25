@@ -3,7 +3,7 @@ package ArquivoBinario;
 import java.io.IOException;
 
 public class RodarBinario {
-    public final int N = 16;
+    public final int N = 32;
     long tini, tfim, ttotalO;
     int compO, movO;
     double tseg;
@@ -30,13 +30,10 @@ public class RodarBinario {
 
     private void exibirInfo(Arquivo arquivo) throws IOException {
         arquivo.exibirArquivo();
-        System.out.println("Tempo inicial: " + tini);
-        System.out.println("Tempo final: " + tfim);
-        System.out.println("Tempo total (millis): " + ttotalO);
-        System.out.println("Tempo total (segundos): " + tseg);
-        System.out.println("Quantidade de comparacoes (ainda nao implementado): "+ compO);
-        System.out.println("Quantidade de movimentacoes (ainda nao implementado): " + movO);
         System.out.println();
+        System.out.println("Segundos: " + tseg);
+        System.out.println("Comp.: "+ compO);
+        System.out.println("Mov: " + movO);
     }
 
     private void geraArquivos() throws IOException {

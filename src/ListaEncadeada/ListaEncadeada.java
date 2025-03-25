@@ -600,6 +600,8 @@ public class ListaEncadeada {
         int tl = contaLista();
         NoLista aux;
 
+        list1.inicializar();
+        list2.inicializar();
         aux = this.inicio;
         for(int i=0; i<(tl+1)/2; i++){
             list1.addFinal(aux.getInfo());
@@ -643,6 +645,64 @@ public class ListaEncadeada {
             }
 
             seq += aux_seq;
+        }
+    }
+
+    public void mergeSortSeg(){
+        ListaEncadeada auxLista = new ListaEncadeada();
+        mergeSORTseg(this.inicio, this.fim, auxLista);
+    } /*mergeSort segunda implementação*/
+    private void mergeSORTseg(NoLista esq, NoLista dir, ListaEncadeada auxLista){
+        if(esq!=dir){
+            int quant = contaIntervalo(esq,dir);
+            NoLista meio = andarFrente(esq,(quant/2));
+            mergeSORTseg(esq, meio, auxLista);
+            mergeSORTseg(meio.getProx(), dir, auxLista);
+            fusaoMergeSeg(esq, meio, meio.getProx(), dir, auxLista);
+        }
+    }
+    private void fusaoMergeSeg(NoLista ini1, NoLista fim1, NoLista ini2, NoLista fim2, ListaEncadeada auxLista){
+        NoLista k, i=ini1, j=ini2;
+        auxLista.inicializar();
+
+        while(i!=fim1.getProx() && j!=fim2.getProx()){
+            if(i.getInfo() < j.getInfo()){
+                auxLista.addFinal(i.getInfo());
+                i = i.getProx();
+            }
+            else{
+                auxLista.addFinal(j.getInfo());
+                j = j.getProx();
+            }
+        }
+
+        //tratando os elementos que sobraram na lista2
+        while(j!=fim2.getProx()){
+            auxLista.addFinal(j.getInfo());
+            j = j.getProx();
+        }
+//        if(j==fim2){
+//            k.setInfo(j.getInfo());
+//            k = k.getProx();
+//        }
+
+        //tratando os elementos que sobraram na lista1
+        while(i!=fim1.getProx()){
+            auxLista.addFinal(i.getInfo());
+            i = i.getProx();
+        }
+//        if(i==fim1){
+//            k.setInfo(j.getInfo());
+//            k = k.getProx();
+//        }
+
+        //colocando os elementos de volta para a lista original
+        k = auxLista.inicio;
+        i = ini1;
+        while(i!=fim2.getProx()){
+            i.setInfo(k.getInfo());
+            k = k.getProx();
+            i = i.getProx();
         }
     }
 }
