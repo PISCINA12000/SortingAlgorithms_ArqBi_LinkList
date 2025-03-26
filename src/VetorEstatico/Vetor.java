@@ -644,7 +644,74 @@ public class Vetor {
             this.vetor[pos] = aux[k++];
     }
 
-    public void timSort(){
+    public void timSort() {
+        int n = this.TL, min_merge = 32;
+        int minRun = calcMinRunTIM(n, min_merge);
 
+        for (int start = 0; start < n; start += minRun) {
+            int end = Math.min(start + minRun - 1, n - 1);
+            insercaoDiretaTIM(start, end);
+        }
+
+        int size = minRun;
+        while (size < n) {
+            for (int left = 0; left < n; left += 2 * size) {
+                int mid = Math.min(n - 1, left + size - 1);
+                int right = Math.min((left + 2 * size - 1), (n - 1));
+
+                if (mid < right) {
+                    mergeTIM(left, mid, right);
+                }
+            }
+            size *= 2;
+        }
     } /*tim sort*/
+    private void mergeTIM(int l, int m, int r) {
+        int len1 = m - l + 1, len2 = r - m;
+        int[] left = new int[len1];
+        int[] right = new int[len2];
+
+        for (int i = 0; i < len1; i++) {
+            left[i] = this.vetor[l + i];
+        }
+        for (int i = 0; i < len2; i++) {
+            right[i] = this.vetor[m + 1 + i];
+        }
+
+        int i = 0, j = 0, k = l;
+        while (i < len1 && j < len2) {
+            if (left[i] <= right[j]) {
+                this.vetor[k++] = left[i++];
+            } else {
+                this.vetor[k++] = right[j++];
+            }
+        }
+
+        while (i < len1) {
+            this.vetor[k++] = left[i++];
+        }
+
+        while (j < len2) {
+            this.vetor[k++] = right[j++];
+        }
+    }
+    private void insercaoDiretaTIM(int left, int right) {
+        for (int i = left + 1; i <= right; i++) {
+            int temp = this.vetor[i];
+            int j = i - 1;
+            while (j >= left && this.vetor[j] > temp) {
+                this.vetor[j + 1] = this.vetor[j];
+                j--;
+            }
+            this.vetor[j + 1] = temp;
+        }
+    } /*metodo insercao para auxiliar o TIM*/
+    private int calcMinRunTIM(int n, int min_merge) {
+        int r = 0;
+        while (n >= min_merge) {
+            r |= (n & 1);
+            n >>= 1;
+        }
+        return n + r;
+    } /*calcula da run mínima do TIM*/
 }

@@ -52,6 +52,7 @@ public class RodarVetor {
         System.out.println("14 - Gnome Sort");
         System.out.println("15 - Merge Sort - MÚLTIPLOS DE 2");
         System.out.println("16 - Merge Sort - QUALQUER MULTIPLICIDADE");
+        System.out.println("17 - Tim Sort (fazendo)");
         System.out.print("INPUT: ");
         opcInterno = input.nextInt();
         return opcInterno;
@@ -68,7 +69,7 @@ public class RodarVetor {
 
     public static void rodar() {
         Vetor vet = new Vetor();
-        vet.alimentar(10);
+        vet.alimentar(64);
         int opc, opcInterno, num;
         Scanner input = new Scanner(System.in);
 
