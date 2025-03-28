@@ -201,17 +201,21 @@ public class Vetor {
 
     // MÉTODOS DE ORDENAÇÃO ---------------------------------------------------
     public void insercaoDireta() {
+        insercaoDireta(0,this.TL-1);
+    } /*insercao direta*/
+
+    private void insercaoDireta(int left, int right) {
         int aux, pos;
-        for (int i = 1; i < TL; i++) {
+        for (int i = left+1; i <= right; i++) {
             aux = vetor[i];
             pos = i;
-            while (pos > 0 && vetor[pos - 1] > aux) {
+            while (pos > left && vetor[pos - 1] > aux) {
                 vetor[pos] = vetor[pos - 1];
                 pos--;
             }
             vetor[pos] = aux;
         }
-    } /*insercao direta*/
+    } /*inserção direta com parâmetros*/
 
     public void bubbleSort() {
         int aux, TL2 = this.TL;
@@ -645,21 +649,36 @@ public class Vetor {
     }
 
     public void timSort() {
-        int n = this.TL, min_merge = 32;
+        int n = this.TL, min_merge = 32, end, size, mid, right;
         int minRun = calcMinRunTIM(n, min_merge);
 
         for (int start = 0; start < n; start += minRun) {
-            int end = Math.min(start + minRun - 1, n - 1);
-            insercaoDiretaTIM(start, end);
+            if(start + minRun - 1 < n - 1) //pergunta se ainda possui minRun elementos para a ordenação
+                end = start + minRun - 1; //se houver então vou ordenar o total de minRun elementos nesse momento
+            else
+                end = n - 1; //se não houver vou ordenar os elementos restantes no meu vetor
+            //end = (start + minRun - 1 < n - 1) ? start + minRun - 1 : n - 1;
+            insercaoDireta(start, end);
         }
 
-        int size = minRun;
-        while (size < n) {
-            for (int left = 0; left < n; left += 2 * size) {
-                int mid = Math.min(n - 1, left + size - 1);
-                int right = Math.min((left + 2 * size - 1), (n - 1));
+        size = minRun;
+        while (size < n) { //enquanto não fiz o merge no meu vetor inteiro
+            // left anda em (2*size) porque cada iteração dois vetores de tamanho "size" são ordenados
+            for (int left = 0; left < n; left += 2*size) {
+                if(left + size - 1 < n - 1)
+                    mid = left + size - 1; //se o meu meio não chega ao final do meu vetor, atribuo o valor "normal"
+                else
+                    mid = n - 1; //defino meu meio como "n-1" se o cálculo chega ou ultrapassa o final
+                //mid = (left + size - 1 < n - 1) ? left + size - 1 : n - 1;
 
-                if (mid < right) {
+                if(left + 2 * size - 1 < n - 1) //se essa conta não chega a última posição do vetor original
+                    right = left + 2*size - 1; //-1 ao final por se tratar de posição e não de tamanho
+                else
+                    right = n - 1; // se chegar e/ou passar, então eu vou ordenar até o final do vetor, evitando pegar posições que nunca podem ser acessadas
+                //right = (left + 2 * size - 1 < n - 1) ? left + 2 * size - 1 : n - 1;
+
+                /*chamo o metodo após achar o meio e o final correto*/
+                if (mid < right) { //só chamo o merge se realmente possuo elementos para dois vetores, se não possuir, tenho certeza que essa última parte está ordenada pelo insertionSort
                     mergeTIM(left, mid, right);
                 }
             }
@@ -671,15 +690,18 @@ public class Vetor {
         int[] left = new int[len1];
         int[] right = new int[len2];
 
+        /*aqui é o particionamento do vetor em dois*/
         for (int i = 0; i < len1; i++) {
-            left[i] = this.vetor[l + i];
+            left[i] = this.vetor[l + i]; //começo a pegar os elementos a partir da posição "l"
         }
         for (int i = 0; i < len2; i++) {
-            right[i] = this.vetor[m + 1 + i];
+            right[i] = this.vetor[m + 1 + i]; //começo a pegar os elementos a partir da posição "m+1"
         }
 
+        /*colocar os elementos na posição correta do vetor original*/
+        /*o 'K' começa de 'l' pois pode ser que ele esteja particionando apenas uma parte do vetor, e não ele inteiro*/
         int i = 0, j = 0, k = l;
-        while (i < len1 && j < len2) {
+        while (i < len1 && j < len2) { //enquanto o 'i' e o 'j' ainda não passaram seus limites no vetor
             if (left[i] <= right[j]) {
                 this.vetor[k++] = left[i++];
             } else {
@@ -687,31 +709,21 @@ public class Vetor {
             }
         }
 
+        /*colocar no vetor original oq sobrou da primeira partição*/
         while (i < len1) {
             this.vetor[k++] = left[i++];
         }
-
+        /*colocar no vetor original oq sobrou da segunda partição*/
         while (j < len2) {
             this.vetor[k++] = right[j++];
         }
     }
-    private void insercaoDiretaTIM(int left, int right) {
-        for (int i = left + 1; i <= right; i++) {
-            int temp = this.vetor[i];
-            int j = i - 1;
-            while (j >= left && this.vetor[j] > temp) {
-                this.vetor[j + 1] = this.vetor[j];
-                j--;
-            }
-            this.vetor[j + 1] = temp;
-        }
-    } /*metodo insercao para auxiliar o TIM*/
     private int calcMinRunTIM(int n, int min_merge) {
         int r = 0;
         while (n >= min_merge) {
-            r |= (n & 1);
-            n >>= 1;
+            r = r + (n % 2);
+            n = n/2;
         }
         return n + r;
-    } /*calcula da run mínima do TIM*/
+    } /*cálculo da RUN mínima do TIM*/
 }

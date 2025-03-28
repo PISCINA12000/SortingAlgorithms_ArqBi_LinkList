@@ -9,7 +9,7 @@ public class Arquivo {
     private RandomAccessFile arquivo;
     private int comp, mov;
 
-    // Construtores
+    // Construtores --------------------------------------------------------------------------------------
     public Arquivo(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
         this.arquivo = criaArquivo();
@@ -18,7 +18,7 @@ public class Arquivo {
         this("temp");
     }
 
-    // Gets e Sets
+    // Gets e Sets ---------------------------------------------------------------------------------------
     public RandomAccessFile getArquivo() {
         return arquivo;
     }
@@ -51,7 +51,7 @@ public class Arquivo {
         setMov(0);
     }
 
-    // Demais metodos
+    // Demais metodos -------------------------------------------------------------------------------------
     private RandomAccessFile criaArquivo() {
         String caminho = "arquivos\\" + nomeArquivo;
         RandomAccessFile arquivo;
@@ -100,7 +100,6 @@ public class Arquivo {
         registro.gravaNoArq(this.arquivo);
     }
 
-    // Métodos auxiliares que não mexem com arquivo binário
     private int contaDigitos(int numero){
         int contador = 0;
         if(numero!=0){
@@ -125,34 +124,47 @@ public class Arquivo {
         return (numero / divisor) % 10;
     }
 
-    //Metodos de ordenacao
+    private int calcMinRunTIM(int n, int min_merge) {
+        int r = 0;
+        while (n >= min_merge) {
+            r = r + (n % 2);
+            n = n/2;
+        }
+        return n + r;
+    } /*cálculo da RUN mínima do TIM*/
+
+    //Metodos de ordenacao --------------------------------------------------------------------------------
     public void insercaoDireta() throws IOException {
-        int pos, tl = (int) this.filesize();
+        insercaoDireta(0, (int)this.filesize()-1);
+    } /*insercao direta*/
+
+    private void insercaoDireta(int start, int end) throws IOException{
+        int pos;
         Registro registro = new Registro(), registroAux = new Registro();
 
         comp++;
-        for(int i=1; i<tl; i++){
+        for(int i=start+1; i<=end; i++){
             comp++;
             seekArq(i); registroAux.leDoArq(arquivo);
             pos = i;
 
             seekArq(pos-1); registro.leDoArq(arquivo);
             comp++;
-            while(pos>0 && registro.getNumero()>registroAux.getNumero()){
+            while(pos>start && registro.getNumero()>registroAux.getNumero()){
                 comp++;
                 seekArq(pos-1); registro.leDoArq(arquivo);
                 seekArq(pos); registro.gravaNoArq(arquivo);
                 mov++;
                 pos--;
                 comp++;
-                if(pos>0){
+                if(pos>start){
                     seekArq(pos-1); registro.leDoArq(arquivo);
                 }
             }
             seekArq(pos); registroAux.gravaNoArq(arquivo);
             mov++;
         }
-    } /*insercao direta*/
+    } /*inserção direta com parâmetros*/
 
     public int buscaBinaria(int chave) throws IOException {
         int ini=0, fim = (int) (this.filesize()-1), meio=fim/2;
@@ -786,7 +798,7 @@ public class Arquivo {
             regi.gravaNoArq(this.arquivo);
             mov++;
         }
-    }
+    } /*count para auxiliar o radix sort*/
 
     public void bucketSort() throws IOException{
         int max=Integer.MIN_VALUE, min=Integer.MAX_VALUE, range, baldes=5, pos, k, tl=(int)filesize();
@@ -1043,9 +1055,105 @@ public class Arquivo {
         }
     }
 
-    public void timSort(){
+    public void timSort() throws IOException {
+        int n, min_range, end, size, mid, right, min_run;
+        n = (int)this.filesize(); //quant de registros
+        min_range = 32; //quant mínima de range de ordenação
+        min_run = calcMinRunTIM(n, min_range); //descobrir o novo range mínimo
 
+        //realizar as ordenações por inserção direta
+        for(int start=0; start<n; start+=min_run){
+            if(start + min_run - 1 < n - 1)
+                end = start + min_run - 1;
+            else
+                end = n - 1;
+
+            insercaoDireta(start, end);
+        }
+
+        //realizar os merges
+        size = min_run;
+        while (size < n) {
+            for (int left = 0; left < n; left += 2*size) {
+                //achar o novo valor do meio que separa os dois sub vetores
+                if(left + size - 1 < n - 1)
+                    mid = left + size - 1;
+                else
+                    mid = n - 1;
+
+                if(left + 2 * size - 1 < n - 1)
+                    right = left + 2*size - 1;
+                else
+                    right = n - 1;
+
+                // chamo o merge após achar o início, o meio e o fim
+                if (mid < right) {
+                    mergeTIM(left, mid, right);
+                }
+            }
+            size *= 2;
+        }
     } /*tim sort*/
+    private void mergeTIM(int l, int m, int r) throws IOException {
+        int len1 = m - l + 1, len2 = r - m;
+        Arquivo left = new Arquivo("Esquerda");
+        Arquivo right = new Arquivo("Direita");
+        Registro regi = new Registro(), regj = new Registro();
+
+        //inicializar os novos arquivos, apenas por segurança
+        left.truncate(0);
+        right.truncate(0);
+
+        /*aqui é o particionamento do vetor em dois*/
+        this.seekArq(l);
+        for (int i = 0; i < len1; i++) {
+            regi.leDoArq(this.arquivo);
+            left.insereNoFinal(regi);
+            //left[i] = this.vetor[l + i]; //começo a pegar os elementos a partir da posição "l"
+        }
+        left.exibirArquivo(); //só para caso de teste
+        this.seekArq(m+1);
+        for (int i = 0; i < len2; i++) {
+            regi.leDoArq(this.arquivo);
+            right.insereNoFinal(regi);
+            //right[i] = this.vetor[m + 1 + i]; //começo a pegar os elementos a partir da posição "m+1"
+        }
+        right.exibirArquivo(); //só para caso de teste
+
+        //colocar de volta ao arquivo original os elementos
+        this.seekArq(l);
+        left.seekArq(0); regi.leDoArq(left.getArquivo());
+        right.seekArq(0); regj.leDoArq(right.getArquivo());
+        int i = 0, j = 0;
+        while (i < len1 && j < len2) {
+            if (regi.getNumero() <= regj.getNumero()) {
+                this.insereNoFinal(regi);
+                i++;
+                regi.leDoArq(left.getArquivo());
+                //this.vetor[k++] = left[i++];
+            } else {
+                this.insereNoFinal(regj);
+                j++;
+                regj.leDoArq(right.getArquivo());
+                //this.vetor[k++] = right[j++];
+            }
+        }
+
+        /*colocar no vetor original oq sobrou da primeira partição*/
+        while (i < len1) {
+            this.insereNoFinal(regi);
+            i++;
+            regj.leDoArq(right.getArquivo());
+            //this.vetor[k++] = left[i++];
+        }
+        /*colocar no vetor original oq sobrou da segunda partição*/
+        while (j < len2) {
+            this.insereNoFinal(regj);
+            j++;
+            regj.leDoArq(right.getArquivo());
+            //this.vetor[k++] = right[j++];
+        }
+    }
 
     private int gerarAleatorio(int n) {
         Random sorteador = new Random();

@@ -3,7 +3,7 @@ package ArquivoBinario;
 import java.io.IOException;
 
 public class RodarBinario {
-    public final int N = 32;
+    public final int N = 16;
     long tini, tfim, ttotalO;
     int compO, movO;
     double tseg;
