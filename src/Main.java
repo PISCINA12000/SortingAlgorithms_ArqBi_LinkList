@@ -1,7 +1,6 @@
 import ArquivoBinario.RodarBinario;
 import ListaEncadeada.RodarLista;
 import VetorEstatico.RodarVetor;
-
 import java.io.IOException;
 import java.util.Scanner;
 

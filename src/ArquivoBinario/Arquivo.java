@@ -1,5 +1,7 @@
 package ArquivoBinario;
 
+import Auxiliares.CoresNoConsole;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
@@ -14,6 +16,7 @@ public class Arquivo {
         this.nomeArquivo = nomeArquivo;
         this.arquivo = criaArquivo();
     }
+
     public Arquivo(){
         this("temp");
     }
@@ -43,17 +46,9 @@ public class Arquivo {
         this.mov = mov;
     }
 
-    public void initComp() {
-        setComp(0);
-    }
-
-    public void initMov() {
-        setMov(0);
-    }
-
     // Demais metodos -------------------------------------------------------------------------------------
     private RandomAccessFile criaArquivo() {
-        String caminho = "arquivos\\" + nomeArquivo;
+        String caminho = "arquivos/" + nomeArquivo;
         RandomAccessFile arquivo;
         try {
             arquivo = new RandomAccessFile(caminho, "rw");
@@ -133,38 +128,66 @@ public class Arquivo {
         return n + r;
     } /*cálculo da RUN mínima do TIM*/
 
-    //Metodos de ordenacao --------------------------------------------------------------------------------
-    public void insercaoDireta() throws IOException {
-        insercaoDireta(0, (int)this.filesize()-1);
-    } /*insercao direta*/
+    private int gerarAleatorio(int n) {
+        Random sorteador = new Random();
+        return (sorteador.nextInt(n)) + 1; //Valores de 1 até n
+    }
 
-    private void insercaoDireta(int start, int end) throws IOException{
-        int pos;
-        Registro registro = new Registro(), registroAux = new Registro();
-
-        comp++;
-        for(int i=start+1; i<=end; i++){
-            comp++;
-            seekArq(i); registroAux.leDoArq(arquivo);
-            pos = i;
-
-            seekArq(pos-1); registro.leDoArq(arquivo);
-            comp++;
-            while(pos>start && registro.getNumero()>registroAux.getNumero()){
-                comp++;
-                seekArq(pos-1); registro.leDoArq(arquivo);
-                seekArq(pos); registro.gravaNoArq(arquivo);
-                mov++;
-                pos--;
-                comp++;
-                if(pos>start){
-                    seekArq(pos-1); registro.leDoArq(arquivo);
-                }
-            }
-            seekArq(pos); registroAux.gravaNoArq(arquivo);
-            mov++;
+    public void geraArquivoOrdenado(int n) {
+        Registro registro = new Registro();
+        for (int i = 0; i < n; i++) {
+            registro.setNumero(i + 1);
+            registro.gravaNoArq(this.arquivo);
         }
-    } /*inserção direta com parâmetros*/
+    }
+
+    public void geraArquivoReverso(int n) {
+        Registro registro = new Registro();
+        for (int i = n; i > 0; i--) {
+            registro.setNumero(i);
+            registro.gravaNoArq(this.arquivo);
+        }
+    }
+
+    public void geraArquivoRandomico(int n) {
+        Registro registro = new Registro();
+        for (int i = n; i > 0; i--) {
+            registro.setNumero(gerarAleatorio(n));
+            registro.gravaNoArq(this.arquivo);
+        }
+    }
+
+    public void geraArquivoZerado(int n) {
+        Registro registro = new Registro();
+        for (int i = n; i > 0; i--) {
+            registro.setNumero(0);
+            registro.gravaNoArq(this.arquivo);
+        }
+    }
+
+    public void exibirArquivo() throws IOException {
+        Registro registro = new Registro();
+        arquivo.seek(0);
+        while (!eof()) {
+            registro.leDoArq(arquivo);
+            System.out.print(CoresNoConsole.VERDE + registro.getNumero()+" "+CoresNoConsole.RESET);
+
+            /*
+            Para exibir nao somente o numero como tambem o conteudo do 'lixo'
+            System.out.print(registro.getNumero());
+            System.out.println("  " + Arrays.toString(registro.getLixo()));
+            */
+        }
+        System.out.print("");
+    }
+
+    public void initComp() {
+        setComp(0);
+    }
+
+    public void initMov() {
+        setMov(0);
+    }
 
     public int buscaBinaria(int chave) throws IOException {
         int ini=0, fim = (int) (this.filesize()-1), meio=fim/2;
@@ -219,6 +242,39 @@ public class Arquivo {
         return meio;
     }/*busca binaria*/
 
+    //Metodos de ordenacao --------------------------------------------------------------------------------
+    public void insercaoDireta() throws IOException {
+        insercaoDireta(0, (int)this.filesize()-1);
+    } /*insercao direta*/
+
+    private void insercaoDireta(int start, int end) throws IOException{
+        int pos;
+        Registro registro = new Registro(), registroAux = new Registro();
+
+        comp++;
+        for(int i=start+1; i<=end; i++){
+            comp++;
+            seekArq(i); registroAux.leDoArq(arquivo);
+            pos = i;
+
+            seekArq(pos-1); registro.leDoArq(arquivo);
+            comp++;
+            while(pos>start && registro.getNumero()>registroAux.getNumero()){
+                comp++;
+                seekArq(pos-1); registro.leDoArq(arquivo);
+                seekArq(pos); registro.gravaNoArq(arquivo);
+                mov++;
+                pos--;
+                comp++;
+                if(pos>start){
+                    seekArq(pos-1); registro.leDoArq(arquivo);
+                }
+            }
+            seekArq(pos); registroAux.gravaNoArq(arquivo);
+            mov++;
+        }
+    } /*inserção direta com parâmetros*/
+
     public void insercaoBinaria() throws IOException {
         int pos, aux, tl = (int) this.filesize();
         Registro registro = new Registro(), registroAux = new Registro();
@@ -240,7 +296,7 @@ public class Arquivo {
             seekArq(pos); registro.gravaNoArq(arquivo);
             mov++;
         }
-    }
+    } /*inserção binária*/
 
     public void bubbleSort() throws IOException {
         int TL= (int) this.filesize();
@@ -454,6 +510,7 @@ public class Arquivo {
         }
     } /*comb sort*/
 
+    // QUICK SORT SEM PIVÔ -----------------------------------------------------------------------------------
     public void quickSortSemPivo() throws IOException{
         quickSORTSemPivo(0, (int)filesize()-1);
     } /*quick sort sem pivo*/
@@ -501,7 +558,9 @@ public class Arquivo {
         if(j+1 < fim)
             quickSORTSemPivo(j + 1, fim);
     } /*quick sort de verdade sem pivo*/
+    // FIM DOS MÉTODOS DO QUICK SEM PIVO ---------
 
+    // QUICK SORT COM PIVÔ -----------------------------------------------------------------------------------
     public void quickSortComPivo() throws IOException{
         // um ou outro
         //quickSORTComPivo(0, (int)filesize()-1);
@@ -586,6 +645,7 @@ public class Arquivo {
         if(i<fim)
             quickSORTComPivoProfessor(i, fim);
     } /*quick com pivo do professor*/
+    // FIM DOS MÉTODOS DO QUICK COM PIVO ---------
 
     public void countSort() throws IOException{
         int maior=Integer.MIN_VALUE, i;
@@ -685,6 +745,7 @@ public class Arquivo {
         }
     } /*count sort*/
 
+    // RADIX SORT ---------------------------------------------------------------------------------------------
     public void radixSort() throws IOException{
         int d=0, tl = (int)this.filesize();
         Registro registro = new Registro();
@@ -799,6 +860,7 @@ public class Arquivo {
             mov++;
         }
     } /*count para auxiliar o radix sort*/
+    // FIM DOS MÉTODOS DO RADIX ------------------
 
     public void bucketSort() throws IOException{
         int max=Integer.MIN_VALUE, min=Integer.MAX_VALUE, range, baldes=5, pos, k, tl=(int)filesize();
@@ -908,6 +970,7 @@ public class Arquivo {
         }
     } /*gnome sort*/
 
+    //MERGE SORT PRIMEIRA IMPLEMENTAÇÃO
     public void mergeSortPrimeiraImplement() throws IOException{
         Arquivo arq1 = new Arquivo("Arq1"), arq2 = new Arquivo("Arq2");
         int seq = 1;
@@ -988,7 +1051,9 @@ public class Arquivo {
             seq += aux_seq;
         }
     } /*fusao para auxiliar merge de multiplos de 2*/
+    // FIM DOS MÉTODOS DO MERGE ------------------
 
+    // MERGE SORT SEGUNDA IMPLEMENTAÇÃO -------------------------------------------------------------------------
     public void mergeSortSegundaImplement() throws IOException{
         Arquivo aux = new Arquivo();
         mergeSegundaImplement(0,(int)this.filesize()-1,aux);
@@ -1054,7 +1119,9 @@ public class Arquivo {
             mov++;
         }
     }
+    // FIM DOS MÉTODOS DO MERGE -------------------
 
+    // TIM SORT -------------------------------------------------------------------------------------------------
     public void timSort() throws IOException {
         int n, min_range, end, size, mid, right, min_run;
         n = (int)this.filesize(); //quant de registros
@@ -1111,28 +1178,30 @@ public class Arquivo {
             left.insereNoFinal(regi);
             //left[i] = this.vetor[l + i]; //começo a pegar os elementos a partir da posição "l"
         }
-        left.exibirArquivo(); //só para caso de teste
+        //left.exibirArquivo(); //só para caso de teste
         this.seekArq(m+1);
         for (int i = 0; i < len2; i++) {
             regi.leDoArq(this.arquivo);
             right.insereNoFinal(regi);
             //right[i] = this.vetor[m + 1 + i]; //começo a pegar os elementos a partir da posição "m+1"
         }
-        right.exibirArquivo(); //só para caso de teste
+        //right.exibirArquivo(); //só para caso de teste
 
         //colocar de volta ao arquivo original os elementos
         this.seekArq(l);
         left.seekArq(0); regi.leDoArq(left.getArquivo());
         right.seekArq(0); regj.leDoArq(right.getArquivo());
-        int i = 0, j = 0;
+        int i = 0, j = 0, k=l;
         while (i < len1 && j < len2) {
-            if (regi.getNumero() <= regj.getNumero()) {
-                this.insereNoFinal(regi);
+            if (regi.getNumero() < regj.getNumero()) {
+                this.seekArq(k); regi.gravaNoArq(this.arquivo);
+                k++;
                 i++;
                 regi.leDoArq(left.getArquivo());
                 //this.vetor[k++] = left[i++];
             } else {
-                this.insereNoFinal(regj);
+                this.seekArq(k); regj.gravaNoArq(this.arquivo);
+                k++;
                 j++;
                 regj.leDoArq(right.getArquivo());
                 //this.vetor[k++] = right[j++];
@@ -1141,71 +1210,20 @@ public class Arquivo {
 
         /*colocar no vetor original oq sobrou da primeira partição*/
         while (i < len1) {
-            this.insereNoFinal(regi);
+            this.seekArq(k); regi.gravaNoArq(this.arquivo);
+            k++;
             i++;
-            regj.leDoArq(right.getArquivo());
+            regi.leDoArq(right.getArquivo());
             //this.vetor[k++] = left[i++];
         }
         /*colocar no vetor original oq sobrou da segunda partição*/
         while (j < len2) {
-            this.insereNoFinal(regj);
+            this.seekArq(k); regj.gravaNoArq(this.arquivo);
+            k++;
             j++;
             regj.leDoArq(right.getArquivo());
             //this.vetor[k++] = right[j++];
         }
     }
-
-    private int gerarAleatorio(int n) {
-        Random sorteador = new Random();
-        return (sorteador.nextInt(n)) + 1; //Valores de 1 até n
-    }
-
-    public void geraArquivoOrdenado(int n) {
-        Registro registro = new Registro();
-        for (int i = 0; i < n; i++) {
-            registro.setNumero(i + 1);
-            registro.gravaNoArq(this.arquivo);
-        }
-    }
-
-    public void geraArquivoReverso(int n) {
-        Registro registro = new Registro();
-        for (int i = n; i > 0; i--) {
-            registro.setNumero(i);
-            registro.gravaNoArq(this.arquivo);
-        }
-    }
-
-    public void geraArquivoRandomico(int n) {
-        Registro registro = new Registro();
-        for (int i = n; i > 0; i--) {
-            registro.setNumero(gerarAleatorio(n));
-            registro.gravaNoArq(this.arquivo);
-        }
-    }
-
-    public void geraArquivoZerado(int n) {
-        Registro registro = new Registro();
-        for (int i = n; i > 0; i--) {
-            registro.setNumero(0);
-            registro.gravaNoArq(this.arquivo);
-        }
-    }
-
-    //exibições
-    public void exibirArquivo() throws IOException {
-        Registro registro = new Registro();
-        arquivo.seek(0);
-        while (!eof()) {
-            registro.leDoArq(arquivo);
-            System.out.print(registro.getNumero()+" ");
-
-            /*
-            Para exibir nao somente o numero como tambem o conteudo do 'lixo'
-            System.out.print(registro.getNumero());
-            System.out.println("  " + Arrays.toString(registro.getLixo()));
-            */
-        }
-        System.out.print("");
-    }
+    // FIM DOS MÉTODOS DO TIM ---------------------
 }
