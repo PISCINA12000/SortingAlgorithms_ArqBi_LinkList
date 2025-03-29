@@ -483,29 +483,32 @@ public class Arquivo {
     } /*heap sort*/
 
     public void combSort() throws IOException{
-        int gap, ant, tl=(int)this.filesize();
+        int gap, TL=(int)this.filesize();
+        gap = TL;
+        boolean flag = true;
         Registro registro = new Registro(), registroAux = new Registro();
 
-        gap = (int) (tl/1.3);
-        ant = gap;
         comp++;
-        while(gap>0){
+        while(gap>1 || flag){
+            gap = (int)(gap/1.3);
             comp++;
+            if(gap<1)
+                gap = 1;
+            flag = false;
             comp++;
-            for (int i=0; i+gap<tl; i++) {
+            for (int i=0; i+gap<TL; i++) {
                 comp++;
                 this.seekArq(i); registro.leDoArq(this.arquivo);
                 this.seekArq(i+gap); registroAux.leDoArq(this.arquivo);
                 comp++;
-                if(registro.getNumero()>registroAux.getNumero()){
+                if(registro.getNumero() > registroAux.getNumero()){
                     this.seekArq(i); registroAux.gravaNoArq(this.arquivo);
                     mov++;
                     this.seekArq(i+gap); registro.gravaNoArq(this.arquivo);
                     mov++;
+                    flag = true;
                 }
             }
-            gap = (int) (ant/1.3);
-            ant = gap;
         }
     } /*comb sort*/
 

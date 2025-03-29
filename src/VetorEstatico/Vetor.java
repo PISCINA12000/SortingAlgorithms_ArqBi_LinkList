@@ -279,19 +279,22 @@ public class Vetor {
     } /*selecao direta*/
 
     public void combSort() {
-        int gap, ant, aux;
-        gap = (int) (this.TL / 1.3);
-        ant = gap;
-        while (gap > 0) {
-            for (int i = 0; i + gap < this.TL; i++) {
-                if (this.vetor[i] > this.vetor[i + gap]) {
-                    aux = this.vetor[i];
-                    this.vetor[i] = this.vetor[i + gap];
-                    this.vetor[i + gap] = aux;
+        int gap = TL, aux;
+        boolean flag = true;
+
+        while (gap > 1 || flag) {
+            gap = (int)(gap/1.3);
+            if(gap<1)
+                gap = 1;
+            flag = false;
+            for (int i = 0; i + gap < TL; i++) {
+                if (vetor[i] > vetor[i + gap]) {
+                    aux = vetor[i];
+                    vetor[i] = vetor[i + gap];
+                    vetor[i + gap] = aux;
+                    flag = true;
                 }
             }
-            gap = (int) (ant / 1.3);
-            ant = gap;
         }
     } /*comb sort*/
 
