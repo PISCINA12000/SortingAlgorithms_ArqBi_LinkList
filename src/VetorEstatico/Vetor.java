@@ -52,6 +52,7 @@ public class Vetor {
 
     // metodo para alimentar vetor
     public void alimentar(int num) {
+        //tenho que ter certeza que o meu "num" é menor que o meu TF
         for (int i = 0; i < num; i++) {
             this.vetor[i] = i + 1;
             this.TL++;

@@ -68,8 +68,8 @@ public class RodarVetor {
     }
 
     public static void rodar() {
-        Vetor vet = new Vetor();
-        vet.alimentar(64);
+        Vetor vet = new Vetor(128);
+        vet.alimentar(128);
         int opc, opcInterno, num;
         Scanner input = new Scanner(System.in);
 

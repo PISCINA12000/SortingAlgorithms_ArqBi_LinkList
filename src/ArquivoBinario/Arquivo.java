@@ -1,7 +1,6 @@
 package ArquivoBinario;
 
 import Auxiliares.CoresNoConsole;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
@@ -143,8 +142,8 @@ public class Arquivo {
 
     public void geraArquivoReverso(int n) {
         Registro registro = new Registro();
-        for (int i = n; i > 0; i--) {
-            registro.setNumero(i);
+        for (int i = 0; i < n; i++) {
+            registro.setNumero(n-i);
             registro.gravaNoArq(this.arquivo);
         }
     }
@@ -1178,14 +1177,12 @@ public class Arquivo {
             left.insereNoFinal(regi);
             //left[i] = this.vetor[l + i]; //começo a pegar os elementos a partir da posição "l"
         }
-        //left.exibirArquivo(); //só para caso de teste
         this.seekArq(m+1);
         for (int i = 0; i < len2; i++) {
             regi.leDoArq(this.arquivo);
             right.insereNoFinal(regi);
             //right[i] = this.vetor[m + 1 + i]; //começo a pegar os elementos a partir da posição "m+1"
         }
-        //right.exibirArquivo(); //só para caso de teste
 
         //colocar de volta ao arquivo original os elementos
         this.seekArq(l);
@@ -1194,14 +1191,14 @@ public class Arquivo {
         int i = 0, j = 0, k=l;
         while (i < len1 && j < len2) {
             if (regi.getNumero() < regj.getNumero()) {
-                this.seekArq(k); regi.gravaNoArq(this.arquivo);
-                k++;
+                this.seekArq(k++);
+                regi.gravaNoArq(this.arquivo);
                 i++;
                 regi.leDoArq(left.getArquivo());
                 //this.vetor[k++] = left[i++];
             } else {
-                this.seekArq(k); regj.gravaNoArq(this.arquivo);
-                k++;
+                this.seekArq(k++);
+                regj.gravaNoArq(this.arquivo);
                 j++;
                 regj.leDoArq(right.getArquivo());
                 //this.vetor[k++] = right[j++];
@@ -1213,7 +1210,7 @@ public class Arquivo {
             this.seekArq(k); regi.gravaNoArq(this.arquivo);
             k++;
             i++;
-            regi.leDoArq(right.getArquivo());
+            regi.leDoArq(left.getArquivo());
             //this.vetor[k++] = left[i++];
         }
         /*colocar no vetor original oq sobrou da segunda partição*/
