@@ -1,24 +1,26 @@
 package ListaEncadeada;
 
+import Auxiliares.CoresNoConsole;
 import java.util.Scanner;
 
 public class RodarLista {
+    private static final int N = 32;
+
     private static int menuPrincipal() {
         int opc;
         Scanner input = new Scanner(System.in);
-        System.out.println("$$$$$$$$\\ $$\\   $$\\  $$$$$$\\   $$$$$$\\  $$$$$$$\\  $$$$$$$$\\  $$$$$$\\  $$$$$$$\\   $$$$$$\\  ");
+        System.out.println(CoresNoConsole.ROXO +"$$$$$$$$\\ $$\\   $$\\  $$$$$$\\   $$$$$$\\  $$$$$$$\\  $$$$$$$$\\  $$$$$$\\  $$$$$$$\\   $$$$$$\\  ");
         System.out.println("$$  _____|$$$\\  $$ |$$  __$$\\ $$  __$$\\ $$  __$$\\ $$  _____|$$  __$$\\ $$  __$$\\ $$  __$$\\ ");
         System.out.println("$$ |      $$$$\\ $$ |$$ /  \\__|$$ /  $$ |$$ |  $$ |$$ |      $$ /  $$ |$$ |  $$ |$$ /  $$ |");
         System.out.println("$$$$$\\    $$ $$\\$$ |$$ |      $$$$$$$$ |$$ |  $$ |$$$$$\\    $$$$$$$$ |$$ |  $$ |$$$$$$$$ |");
         System.out.println("$$  __|   $$ \\$$$$ |$$ |      $$  __$$ |$$ |  $$ |$$  __|   $$  __$$ |$$ |  $$ |$$  __$$ |");
         System.out.println("$$ |      $$ |\\$$$ |$$ |  $$\\ $$ |  $$ |$$ |  $$ |$$ |      $$ |  $$ |$$ |  $$ |$$ |  $$ |");
         System.out.println("$$$$$$$$\\ $$ | \\$$ |\\$$$$$$  |$$ |  $$ |$$$$$$$  |$$$$$$$$\\ $$ |  $$ |$$$$$$$  |$$ |  $$ |");
-        System.out.println("\\________|\\__|  \\__| \\______/ \\__|  \\__|\\_______/ \\________|\\__|  \\__|\\_______/ \\__|  \\__|");
-        System.out.println("\n1 - Buscar elemento (nao será implementado)");
-        System.out.println("2 - Listar elemento(s)");
-        System.out.println("3 - Ordenar lista");
-        System.out.println("4 - Gerar Valores Aleatórios");
-        System.out.print("INPUT: ");
+        System.out.println("\\________|\\__|  \\__| \\______/ \\__|  \\__|\\_______/ \\________|\\__|  \\__|\\_______/ \\__|  \\__|"+CoresNoConsole.RESET);
+        System.out.println("\n1 - Listar elemento(s)");
+        System.out.println("2 - Ordenar lista");
+        System.out.println("3 - Gerar valores aleatórios");
+        System.out.print(CoresNoConsole.AMARELO+"INPUT: "+CoresNoConsole.RESET);
         opc = input.nextInt();
         return opc;
     }
@@ -26,14 +28,14 @@ public class RodarLista {
     private static int menuOrdenacao() {
         int opc;
         Scanner input = new Scanner(System.in);
-        System.out.println("----- ORDENAR ELEMENTOS -----");
+        System.out.println(CoresNoConsole.ROXO+"\n\n----- ORDENAR ELEMENTOS -----"+CoresNoConsole.RESET);
         System.out.println("1 - Inserção Direta");
         System.out.println("2 - Bubble Sort ");
         System.out.println("3 - Shakesort");
         System.out.println("4 - Seleção Direta");
         System.out.println("5 - Comb Sort");
         System.out.println("6 - Shell Sort");
-        System.out.println("7 - Inserção Binaria");
+        System.out.println("7 - Inserção Binária");
         System.out.println("8 - Heap Sort");
         System.out.println("9 - Quick Sort SEM pivo");
         System.out.println("10 - Quick Sort COM pivo");
@@ -43,198 +45,113 @@ public class RodarLista {
         System.out.println("14 - Gnome Sort");
         System.out.println("15 - Merge Sort PRIMEIRA implementação");
         System.out.println("16 - Merge Sort SEGUNDA implementação");
-        System.out.print("INPUT: ");
+        System.out.println("17 - Tim Sort");
+        System.out.print(CoresNoConsole.AMARELO+"INPUT: "+CoresNoConsole.RESET);
         opc = input.nextInt();
         return opc;
     }/*ordenações*/
 
     private static void continuar(){
-        System.out.println("Pressione QUALQUER tecla para continuar");
+        System.out.println(CoresNoConsole.AMARELO+"Pressione QUALQUER tecla para continuar"+CoresNoConsole.RESET);
         try {
             System.in.read();
         } catch (Exception e) {
-            System.out.println("Erro na leitura! " + e.getMessage());
+            System.out.println(CoresNoConsole.VERMELHO+"Erro na leitura! " + e.getMessage()+CoresNoConsole.RESET);
         }
     }
 
     public static void rodar() {
-        long timeIni, timeFim;
         int opc, opcInterno;
         ListaEncadeada lista = new ListaEncadeada();
         do{
             opc = menuPrincipal();
             switch(opc){
                 case 1:{
-                    System.out.println("Buscas ainda não implementadas!");
-                    break;
-                }/*buscas*/
-                case 2:{
-                    System.out.println("----- LISTAGEM DE ELEMENTOS -----");
+                    System.out.println(CoresNoConsole.CIANO+"\n----- LISTAGEM DE ELEMENTOS -----"+CoresNoConsole.RESET);
                     lista.printarValores();
-                    System.out.println("***** listagem concluída *****");
+                    System.out.println("***** listagem concluída *****\n");
                     continuar();
                     break;
                 }/*listagem dos elementos*/
-                case 3:{
+                case 2:{
                     opcInterno = menuOrdenacao();
+                    System.out.println(CoresNoConsole.VERMELHO+"\n\nLista Antes da ordenação: "+CoresNoConsole.RESET);
+                    lista.printarValores();
                     switch(opcInterno){
-                        case 1:{
+                        case 1:
                             lista.insercaoDireta();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*inserção direta*/
-                        case 2:{
+                        case 2:
                             lista.bubbleSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*bubble sort*/
-                        case 3:{
+                        case 3:
                             lista.shakesort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*shake sort*/
-                        case 4:{
+                        case 4:
                             lista.selecaoDireta();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*seleção direta*/
-                        case 5:{
+                        case 5:
                             lista.combSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*comb sort*/
-                        case 6:{
+                        case 6:
                             lista.shellSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*shell sort*/
-                        case 7:{
+                        case 7:
                             lista.insercaoBinaria();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*insercao binaria*/
-                        case 8:{
+                        case 8:
                             lista.heapSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*heap sort*/
-                        case 9:{
+                        case 9:
+                            //quick sort SEM pivo
                             lista.quickSortSemPivo();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*quick sort sem pivo*/
-                        case 10:{
+                        case 10:
+                            //quick sort COM pivo
                             lista.quickSortComPivo();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*quick sort com pivo*/
-                        case 11:{
+                        case 11:
                             lista.countSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*count sort*/
-                        case 12:{
+                        case 12:
                             lista.radixSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*count sort*/
-                        case 13:{
+                        case 13:
                             lista.bucketSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*bucket sort*/
-                        case 14:{
+                        case 14:
                             lista.gnomeSort();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*gnome sort*/
-                        case 15:{
+                        case 15:
+                            //merge sort primeira implementação, múltiplos de 2
                             lista.mergeSortPri();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*merge sort primeira implementação*/
-                        case 16:{
+                        case 16:
+                            //merge sort segunda implementação, qualquer multiplicidade
                             lista.mergeSortSeg();
-                            System.out.println("Lista Ordenada com sucesso!");
-                            System.out.println("----- LISTAGEM DE ELEMENTOS -----");
-                            lista.printarValores();
-                            System.out.println("***** listagem concluída *****");
-                            continuar();
                             break;
-                        } /*merge sort segunda implementação*/
+                        case 17:
+                            lista.timSort();
+                            break;
                         default:
-                            System.out.println("Essa opção não é válida");
+                            System.out.println(CoresNoConsole.VERMELHO+"Essa opção não é válida"+CoresNoConsole.RESET);
                     }
+                    if(opcInterno>0 &&opcInterno<18){
+                        System.out.println(CoresNoConsole.VERDE+"\nLista Depois da ordenação: "+CoresNoConsole.RESET);
+                        lista.printarValores();
+                        System.out.println();
+                    }
+                    continuar();
                     break;
                 }/*ordenações*/
-                case 4:{
-                    lista.criarElementosRand(16);
-                    System.out.println("Elementos criados com sucesso!");
+                case 3:{
+                    lista.criarElementosRand(N);
+                    System.out.println(CoresNoConsole.VERDE+"Elementos criados com sucesso!"+CoresNoConsole.RESET);
                     continuar();
                     break;
                 }/*gerar valores aleatorios*/
                 default:{
-                    System.out.println("Até mais!!");
+                    System.out.println("\n\nAté mais!");
                 }
             }
         }while(opc>0 && opc<5);

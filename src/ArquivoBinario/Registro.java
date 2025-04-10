@@ -64,7 +64,6 @@ public class Registro {
         //char lixo[] = new char[tf]; 2044 bytes
         //--------------------------------------
         // total: 2048 bytes
-
         return (2048);
     }
 }

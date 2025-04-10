@@ -2,12 +2,11 @@ package ArquivoBinario;
 
 import Auxiliares.CoresNoConsole;
 import Auxiliares.Tabela;
-
 import java.io.File;
 import java.io.IOException;
 
 public class RodarBinario {
-    public final int N = 1024;
+    public final int N = 32;
     long tini, tfim, ttotalO;
     int compO, movO;
     int compOrd, compEqOrd, movOrd, movEqOrd;
@@ -19,7 +18,24 @@ public class RodarBinario {
     Arquivo arqRev = new Arquivo("ReversamenteOrdenado");
     Arquivo arqRand = new Arquivo("Aleatorio");
     Arquivo arqCopRand = new Arquivo("CopiaRand");
-    //...
+    Tabela tabela;
+    {
+        try {
+            tabela = new Tabela("Estatisticas");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void gravarLinhaArquivo(String metodo) throws IOException {
+        //gravar a linha na tabela
+        tabela.gravaLinha(
+            metodo,
+            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
+            compRev, compEqRev, movRev, movEqRev, tempoRev,
+            compRand, compEqRand, movRand, movEqRand, tempoRand
+        );
+    }
 
     private void comecar(Arquivo arquivo){
         arquivo.initComp();
@@ -89,7 +105,6 @@ public class RodarBinario {
 
     public void geraTabela() throws IOException {
         this.geraArquivoAleatorio();
-        Tabela tabela = new Tabela("Estatisticas");
         for(int i=1; i<=17; i++){
             compEqOrd=0;
             movEqOrd=0;
@@ -97,13 +112,13 @@ public class RodarBinario {
             movEqRev=0;
             compEqRand=0;
             movEqRand=0;
-            // O switch eh para chamar metodos diferentes em cada iteracao
+            geraArquivos();
+            System.out.println();
+            // O switch é para chamar metodos diferentes em cada iteracao
             switch(i){
                 case 1:{
                     //insercao direta
-
                     System.out.println(CoresNoConsole.AZUL + "Inserção Direta" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.insercaoDireta();
@@ -133,21 +148,12 @@ public class RodarBinario {
                     movEqRand = (int)(Math.pow(N,2) + 9*N - 10)/4;
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Insercao Direta",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Insercao Direta");
                     break;
                 } /*insercao Direta*/
                 case 2:{
                     //insercao binaria
-
                     System.out.println(CoresNoConsole.AZUL + "Inserção Binária" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.insercaoBinaria();
@@ -177,21 +183,12 @@ public class RodarBinario {
                     movEqRand = (int)(Math.pow(N,2) + 3*N - 4)/2;
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Insercao Binaria",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Insercao Binaria");
                     break;
                 } /*insercao Binaria*/
                 case 3:{
                     //selecao direta
-
                     System.out.println(CoresNoConsole.AZUL + "Seleção Direta" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.selecaoDireta();
@@ -221,21 +218,12 @@ public class RodarBinario {
                     movEqRand = (int)(N * (Math.log(N) + g));
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Selecao Direta",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Selecao Direta");
                     break;
                 } /*selecao direta*/
                 case 4:{
                     //bubble sort
-
                     System.out.println(CoresNoConsole.AZUL + "Bubble Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.bubbleSort();
@@ -267,21 +255,12 @@ public class RodarBinario {
                     movEqRand = (int)(3 * (Math.pow(N,2) - N)/4);
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Bubble Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Bubble Sort");
                     break;
                 } /*bubble Sort*/
                 case 5:{
                     //shake sort
-
                     System.out.println(CoresNoConsole.AZUL + "Shake Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.shakesort();
@@ -311,21 +290,12 @@ public class RodarBinario {
                     movEqRand = (int)(3 * (Math.pow(N,2) - N)/4);
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Shake Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Shake Sort");
                     break;
                 } /*shake Sort*/
                 case 6:{
                     //shell sort
-
                     System.out.println(CoresNoConsole.AZUL + "Shell Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.shellSort();
@@ -349,21 +319,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Shell Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Shell Sort");
                     break;
                 } /*shell sort*/
                 case 7:{
                     //heap sort
-
                     System.out.println(CoresNoConsole.AZUL + "Heap Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.heapSort();
@@ -387,21 +348,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Heap Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Heap Sort");
                     break;
                 } /*heap sort*/
                 case 8:{
                     //comb sort
-
                     System.out.println(CoresNoConsole.AZUL + "Comb Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.combSort();
@@ -425,21 +377,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Comp Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Comb Sort");
                     break;
                 } /*comb sort*/
                 case 9:{
                     //quick sort sem pivo
-
                     System.out.println(CoresNoConsole.AZUL + "Quick Sort SEM Pivo" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.quickSortSemPivo();
@@ -463,21 +406,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Quick SEM Pivo",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Quick SEM Pivo");
                     break;
                 } /*quick sort sem pivo*/
                 case 10:{
                     //quick sort com pivo
-
                     System.out.println(CoresNoConsole.AZUL + "Quick Sort COM Pivo" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.quickSortComPivo();
@@ -501,21 +435,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Quick COM Pivo",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Quick COM Pivo");
                     break;
                 } /*quick sort com pivo*/
                 case 11:{
                     //count sort
-
                     System.out.println(CoresNoConsole.AZUL + "Count Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.countSort();
@@ -539,21 +464,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Count Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Count Sort");
                     break;
                 } /*count sort*/
                 case 12:{
                     //radix sort
-
                     System.out.println(CoresNoConsole.AZUL + "Radix Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.radixSort();
@@ -577,21 +493,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Radix Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Radix Sort");
                     break;
                 } /*radix sort*/
                 case 13:{
                     //bucket sort
-
                     System.out.println(CoresNoConsole.AZUL + "Bucket Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.bucketSort();
@@ -615,21 +522,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Bucket Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Bucket Sort");
                     break;
                 } /*bucket sort*/
                 case 14:{
                     //gnome sort
-
                     System.out.println(CoresNoConsole.AZUL + "Gnome Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.gnomeSort();
@@ -653,21 +551,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Gnome Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Gnome Sort");
                     break;
                 } /*gnome sort*/
                 case 15:{
                     //merge sort primeira implementação
-
                     System.out.println(CoresNoConsole.AZUL + "Merge Sort PRIMEIRA Implementação" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.mergeSortPrimeiraImplement();
@@ -691,21 +580,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Merge MULTIPLOS 2",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Merge MULTIPLOS 2");
                     break;
                 } /*merge sort primeira implementação*/
                 case 16:{
                     //merge sort segunda implementação
-
                     System.out.println(CoresNoConsole.AZUL + "Merge Sort SEGUNDA Implementação" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.mergeSortSegundaImplement();
@@ -729,21 +609,12 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Merge Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Merge Sort");
                     break;
                 } /*merge sort segunda implementação*/
                 case 17:{
                     //tim sort
-
                     System.out.println(CoresNoConsole.AZUL + "Tim Sort" +CoresNoConsole.RESET);
-                    this.geraArquivos();
 
                     this.comecar(arqOrd);
                     arqOrd.timSort();
@@ -767,31 +638,13 @@ public class RodarBinario {
                     armazenarAleatorio();
 
                     //gravar a linha na tabela
-                    tabela.gravaLinha(
-                            "Tim Sort",
-                            compOrd, compEqOrd, movOrd, movEqOrd, tempoOrd,
-                            compRev, compEqRev, movRev, movEqRev, tempoRev,
-                            compRand, compEqRand, movRand, movEqRand, tempoRand
-                    );
-
-                    excluirArquivos();
+                    gravarLinhaArquivo("Tim Sort");
                     break;
                 } /*tim sort*/
             }
+            excluirArquivos();
         }
         tabela.fechar();
-
-//        //grava na tabela informacoes os dados extraídos das execucoes do metodo
-//        //Insercao Direta
-//        gravaLinhaTabela(compO,
-//                calculaCompInsDir(filesize()),
-//                movO,
-//                calculaMovInsDir(filesize()),
-//                ttotalO //tempo execução no arquivo Ordenado já convertido para segundos
-//                //...
-//        );
-//        //... fim Insercao Direta
-//        //e assim continua para os outros métodos de ordenacao!!!
     }
 
     public static void rodar() throws IOException {

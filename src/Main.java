@@ -1,4 +1,5 @@
 import ArquivoBinario.RodarBinario;
+import Auxiliares.CoresNoConsole;
 import ListaEncadeada.RodarLista;
 import VetorEstatico.RodarVetor;
 import java.io.IOException;
@@ -7,18 +8,18 @@ import java.util.Scanner;
 public class Main {
     private static int menuPrincipal() {
         Scanner leitor = new Scanner(System.in);
-        System.out.println("$$\\      $$\\                               ");
+        System.out.println(CoresNoConsole.CIANO+"$$\\      $$\\                               ");
         System.out.println("$$$\\    $$$ |                              ");
         System.out.println("$$$$\\  $$$$ | $$$$$$\\  $$$$$$$\\  $$\\   $$\\ ");
         System.out.println("$$\\$$\\$$ $$ |$$  __$$\\ $$  __$$\\ $$ |  $$ |");
         System.out.println("$$ \\$$$  $$ |$$$$$$$$ |$$ |  $$ |$$ |  $$ |");
         System.out.println("$$ |\\$  /$$ |$$   ____|$$ |  $$ |$$ |  $$ |");
         System.out.println("$$ | \\_/ $$ |\\$$$$$$$\\ $$ |  $$ |\\$$$$$$  |");
-        System.out.println("\\__|     \\__| \\_______|\\__|  \\__| \\______/ ");
+        System.out.println("\\__|     \\__| \\_______|\\__|  \\__| \\______/ "+CoresNoConsole.RESET);
         System.out.println("\n1 - LISTA ENCADEADA");
         System.out.println("2 - ARQUIVO BINÁRIO");
         System.out.println("3 - VETORES");
-        System.out.println("\nEscolha a opção: ");
+        System.out.println(CoresNoConsole.AMARELO+"\nEscolha a opção: "+CoresNoConsole.RESET);
 
         return leitor.nextInt();
     }
@@ -49,12 +50,12 @@ public class Main {
                     break;
                 }
                 default: {
-                    System.out.println("OPÇÃO INVÁLIDA!!");
+                    System.out.println(CoresNoConsole.VERMELHO +"OPÇÃO INVÁLIDA!!"+CoresNoConsole.RESET);
                 }
             }
-            System.out.println("Quer continuar? [0]NAO [1]SIM");
+            System.out.println(CoresNoConsole.AMARELO+"\nQuer continuar? [0]NAO [1]SIM"+CoresNoConsole.RESET);
             opcao = leitor.nextInt();
         } while (opcao==1); //continuar a execucao do programa
-        System.out.println("Até mais!");
+        System.out.println("\nAté mais!");
     }
 }

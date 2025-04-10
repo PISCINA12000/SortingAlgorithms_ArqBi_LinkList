@@ -129,7 +129,7 @@ public class Arquivo {
 
     private int gerarAleatorio(int n) {
         Random sorteador = new Random();
-        return (sorteador.nextInt(n)) + 1; //Valores de 1 até n
+        return (sorteador.nextInt(n)) + 1; //Auxiliares.Valores de 1 até n
     }
 
     public void geraArquivoOrdenado(int n) {
@@ -1187,7 +1187,7 @@ public class Arquivo {
             //right[i] = this.vetor[m + 1 + i]; //começo a pegar os elementos a partir da posição "m+1"
         }
 
-        //colocar de volta ao arquivo original os elementos
+        //colocar de volta ao arquivo original os elementos separados
         this.seekArq(l);
         left.seekArq(0); regi.leDoArq(left.getArquivo());
         right.seekArq(0); regj.leDoArq(right.getArquivo());

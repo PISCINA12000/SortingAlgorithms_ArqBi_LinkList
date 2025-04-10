@@ -15,7 +15,7 @@ public class ListaEncadeada {
         this.fim = null;
     }
 
-    //métodos extras
+    //métodos extras ------------------------------------------------------------------
     public int primeiroElemento() {
         return this.inicio.getInfo();
     }
@@ -51,13 +51,18 @@ public class ListaEncadeada {
     public void criarElementosRand(int num) {
         inicializar();
         Random gerador = new Random();
-        this.inicio = this.fim = new NoLista(1 + gerador.nextInt(num));
-        NoLista aux = this.inicio;
-        for (int i = 1; i < num; i++) {
-            aux.setProx(new NoLista(1 + gerador.nextInt(num)));
-            aux.getProx().setAnt(aux);
-            aux = aux.getProx();
-            this.fim = aux;
+        int aux, pos;
+        NoLista auxLista;
+
+        for (int i = 0; i < num; i++)
+            addFinal(i+1);
+        //de fato embaralhar
+        auxLista = inicio;
+        for (int i = 0; i < num; i++) {
+            pos = gerador.nextInt(num);
+            aux = andarFrente(inicio,pos).getInfo();
+            andarFrente(inicio, pos).setInfo(auxLista.getInfo());
+            auxLista.setInfo(aux);
         }
     }/*criar elementos "aleatoriamente"*/
 
@@ -65,9 +70,10 @@ public class ListaEncadeada {
         NoLista aux = this.inicio;
         try{
             while (aux != null) {
-                System.out.println(aux.getInfo());
+                System.out.print(aux.getInfo()+" ");
                 aux = aux.getProx();
             }
+            System.out.println();
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -158,16 +164,18 @@ public class ListaEncadeada {
         }
     }
 
-    /*fim metodos extras*/
+    //ORDENAÇÕES ----------------------------------------------------------------------
+    public void insercaoDireta(){
+        insercaoDireta(inicio, fim);
+    } /*insercao direta*/
 
-    /*ORDENAÇÕES*/
-    public void insercaoDireta() {
+    private void insercaoDireta(NoLista left, NoLista right) {
         int aux;
-        NoLista ppos, i = this.inicio.getProx();
-        while (i != null) {
+        NoLista ppos, i = left.getProx();
+        while (i != right.getProx()) {
             aux = i.getInfo();
             ppos = i;
-            while (ppos.getAnt() != null && ppos.getAnt().getInfo() > aux) {
+            while (ppos != left && ppos.getAnt().getInfo() > aux) {
                 ppos.setInfo(ppos.getAnt().getInfo());
                 ppos = ppos.getAnt();
             }
@@ -704,5 +712,111 @@ public class ListaEncadeada {
             k = k.getProx();
             i = i.getProx();
         }
+    }
+
+    public void timSort(){
+        int TL = contaLista(), min_merge = 32;
+        int corridaMinima = corridaMinima(TL, min_merge);
+
+        /*
+        * Nesse for, de acordo com o valor da corrida minima
+        * que foi calculada, eu ordeno partes da lista com o
+        * insercao direta
+        * */
+        for(int comeco=0; comeco<TL; comeco+=corridaMinima){
+            int fim;
+            if(comeco+corridaMinima-1 < TL-1) {
+                //se NÃO ultrapassar os limites da minha lista
+                fim = comeco+corridaMinima-1;
+            }
+            else {
+                //se ultrapassar os limites da minha lista
+                fim = TL-1;
+            }
+            insercaoDireta(andarFrente(inicio,comeco),andarFrente(inicio,fim));
+        }
+
+        int tamanho = corridaMinima, dir, meio;
+        while(tamanho<TL){
+            for(int esq=0; esq<TL; esq += 2*tamanho){
+                if(esq+tamanho-1 < TL-1)
+                    meio = esq+tamanho-1;
+                else
+                    meio = TL-1;
+
+                if(esq+2*tamanho-1 < TL-1)
+                    dir = esq+2*tamanho-1;
+                else
+                    dir = TL-1;
+
+                /*
+                * Chamo o merge se o meio não passar do
+                * limite da direita
+                * */
+                if(meio < dir){
+                    mergeTIM(esq, meio, dir);
+                }
+            }
+            tamanho *= 2;
+        }
+    } /*timSort*/
+    private void mergeTIM(int esq, int meio, int dir){
+        int TL1 = meio-esq+1;
+        int TL2 = dir-meio;
+        NoLista auxLista;
+
+        ListaEncadeada esquerda = new ListaEncadeada();
+        ListaEncadeada direita = new ListaEncadeada();
+
+        //particionamento da lista em duas partes
+        auxLista = andarFrente(inicio,esq);
+        for (int i=0; i<TL1; i++) {
+            esquerda.addFinal(auxLista.getInfo());
+            auxLista = auxLista.getProx();
+        }
+        auxLista = andarFrente(inicio, meio+1);
+        for (int i=0; i<TL2; i++) {
+            direita.addFinal(auxLista.getInfo());
+            auxLista = auxLista.getProx();
+        }
+
+        NoLista auxEsq = esquerda.inicio, auxDir = direita.inicio;
+        auxLista = andarFrente(inicio, esq);
+        int i=0, j=0;
+        while(i<TL1 && j<TL2){
+            if(auxEsq.getInfo() <= auxDir.getInfo()){
+                auxLista.setInfo(auxEsq.getInfo());
+                auxEsq = auxEsq.getProx();
+                i++;
+            }
+            else {
+                auxLista.setInfo(auxDir.getInfo());
+                auxDir = auxDir.getProx();
+                j++;
+            }
+            auxLista = auxLista.getProx();
+        }
+
+        //tratar os elementos que sobraram nas listas
+        while(i<TL1){
+            auxLista.setInfo(auxEsq.getInfo());
+            auxEsq = auxEsq.getProx();
+            auxLista = auxLista.getProx();
+            i++;
+        }
+        while(j<TL2){
+            auxLista.setInfo(auxDir.getInfo());
+            auxDir = auxDir.getProx();
+            auxLista = auxLista.getProx();
+            j++;
+        }
+    }
+    private int corridaMinima(int n, int min_merge) {
+        int r = 0;
+        while (n >= min_merge) {
+            r = r + (n % 2);
+            n = n/2;
+        }
+        return n + r;
     }
 }
